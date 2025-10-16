@@ -3,7 +3,7 @@ FROM $BUILD_FROM AS RUNNING
 
 RUN apk update && \
     apk add --no-cache \
-		'rsync=3.4.0-r0' \
+		'rsync=3.4.1' \
 		'coreutils=9.3-r2'
 
 COPY root /
