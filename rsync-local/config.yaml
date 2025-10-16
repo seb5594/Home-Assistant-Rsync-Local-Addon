@@ -22,6 +22,7 @@ map:
   - addons:rw
   - ssl:rw
   - media:rw
+  - addon_configs:rw
 devices:
   - /dev/sda1
   - /dev/sda2
