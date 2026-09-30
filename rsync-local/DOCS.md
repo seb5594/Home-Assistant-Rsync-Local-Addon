@@ -124,6 +124,31 @@ Keep watchdog restart and automatic startup disabled for scheduled one-shot use.
 
 ## Check and Restore
 
+### Refresh the store or fix an old `:dev` image error
+
+If installation/update still tries to download `ghcr.io/poeschl-homeassistant-addons/rsync-local-amd64:dev` and returns 404, Home Assistant is using obsolete store metadata. This fork builds locally from its Dockerfile; it does not use that upstream image.
+
+In Home Assistant, open **Settings → Apps → App store → ⋮ → Check for updates**, then reopen Rsync Local. Older versions call these menus **Add-ons** and **Add-on store**. Alternatively, run this in a Home Assistant terminal:
+
+```bash
+ha store reload
+```
+
+Check the version offered in the app page before installing or updating. For `https://github.com/seb5594/Home-Assistant-Apps`, the repository ID is `4c7fee11` and the app ID is `4c7fee11_rsync-local`.
+
+If refreshing still leaves obsolete `dev` metadata or repository Git errors, repair only this repository and refresh again:
+
+```bash
+ha store repair 4c7fee11
+ha store reload
+```
+
+Repository repair reclones the catalog; it does not uninstall the app or erase your saved app options. There is no need to uninstall Rsync Local to refresh its store metadata.
+
+New versions must first be published to the source repository's default branch and synchronized into the catalog. Repository maintainers can trigger synchronization with **Home-Assistant-Apps → Actions → Synchronize app catalog → Run workflow** on `main`. A Home Assistant store refresh cannot expose a version that is still only in a pull request.
+
+### Verify and restore your copy
+
 The log identifies each source and destination and reports elapsed time. Copy failures return a nonzero exit status. Cleanup attempts to stop an active transfer and unmount the drive on normal exit and handled errors/signals. A forced kill or hardware disconnection cannot guarantee cleanup.
 
 Check the first copy and verify representative files before relying on the schedule. Restore needed files to their original location and follow Home Assistant's validation/restart procedure.
