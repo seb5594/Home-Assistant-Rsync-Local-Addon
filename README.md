@@ -1,56 +1,67 @@
-# Rsync Local for Home Assistant
+# Rsync Local
 
-![Version 1.73](https://img.shields.io/badge/version-1.73-167D8D?style=for-the-badge)
-![Five architectures](https://img.shields.io/badge/architectures-amd64%20%7C%20aarch64%20%7C%20armv7%20%7C%20armhf%20%7C%20i386-41BDF5?style=for-the-badge)
+**Version 1.74**
 
-**Version 1.73**
+![Version](https://img.shields.io/badge/version-1.74-167D8D?style=for-the-badge)
+![Rsync](https://img.shields.io/badge/rsync-3.5.1--r0-167D8D?style=for-the-badge)
+![Coreutils](https://img.shields.io/badge/coreutils-9.11--r1-167D8D?style=for-the-badge)
 
-Your Home Assistant setup holds a lot of little things that would be hard to recreate: carefully tuned automations, configuration files, secrets, and the resources you keep in `/share` and `/media`. Rsync Local helps you keep an extra copy close to home.
+Back up **`/config`**, including your automations, dashboards, scripts, and `secrets.yaml`, to a USB stick, USB hard drive, or USB SSD attached directly to your Home Assistant server. Keep the important resources from `/share`, `/media`, and your app configuration folders alongside them.
 
-Plug a USB stick, USB hard drive, or USB SSD directly into your Home Assistant server, choose the folders that matter to you, and let a Home Assistant automation run the sync on your schedule. No NAS is required. If you already have one, this gives you another local place to keep your important files.
+A little extra peace of mind, right at home. No NAS or cloud account is required, and an existing NAS backup can happily remain part of your routine.
 
-[![Add repository to Home Assistant](https://img.shields.io/badge/Add-repository-41BDF5?logo=home-assistant&style=for-the-badge)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fseb5594%2FHome-Assistant-Apps)
+[![Add repository](https://img.shields.io/badge/Add-repository-41BDF5?logo=home-assistant&style=for-the-badge)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fseb5594%2FHome-Assistant-Apps)
 
-## What you can keep
+## Your folders, your schedule
 
-- Home Assistant configuration, automations, scripts, dashboards, and `secrets.yaml` from `/config`.
-- Selected files or entire folders from `/share` and `/media`, such as voice resources, playlists, and documents.
-- Other exposed folders, including `/ssl`, `/backup`, and `/addons`, when you include them in the configuration.
+| What matters | Source inside the app |
+| --- | --- |
+| **Home Assistant configuration and secrets** | **`/config`** |
+| Shared files and media resources | `/share`, `/media` |
+| Other apps' exposed configuration | `/app_configs` or `/addon_configs` |
+| Locally developed apps/add-ons | `/local_apps` or `/addons` |
+| Existing backup archives and certificates | `/backup`, `/ssl` |
 
-Rsync copies new and changed files on later runs, so you do not have to copy everything from scratch each time. You decide whether to include a whole folder or just a smaller collection of essentials.
+The old and new configuration-folder names point to the same underlying files. Choose one name for each folder, not both.
 
-## A simple routine
+**`/config` is a source to protect; the destination is your USB drive.** For example, its files are copied to `backup/config/` on that drive.
 
-1. Add the [Home Assistant Apps repository](https://github.com/seb5594/Home-Assistant-Apps) and install **Rsync Local**.
-2. Attach a prepared USB drive to the Home Assistant server. For a virtual machine, pass the drive through to the Home Assistant OS guest.
-3. Start the app with `external_device` left empty to list candidate devices in the log, then identify the correct USB partition.
-4. Set the partition, choose your source folders, and run your first sync.
-5. Create a time-based Home Assistant automation to start the app periodically, for example every night.
+1. Install **Rsync Local** from the [Home Assistant Apps repository](https://github.com/seb5594/Home-Assistant-Apps).
+2. Attach a prepared USB drive, select the correct partition, and choose your folders.
+3. Run your first copy, check the log, then schedule regular runs with Home Assistant.
 
-**Each start performs one sync and then exits.** Scheduling belongs to Home Assistant; the app has no internal timer.
+Each start performs one sync and exits. Later runs copy new and changed files. There is no background timer, extra web server, or installation telemetry.
 
-See the [configuration and scheduling guide](rsync-local/DOCS.md) for examples, device selection, and restore considerations.
+**[Setup, options, and nightly automation](rsync-local/DOCS.md)** · **[Changelog](rsync-local/CHANGELOG.md)**
 
-## What kind of backup is this?
+## Architectures and project activity
 
-This is an extra local file copy for the parts of your setup you want within reach. The default rsync options use `--delete`, so deleted source files are also removed from their corresponding destination folders. There is no built-in version history or encryption.
+![AMD64](https://img.shields.io/badge/amd64-supported-208447)
+![AArch64](https://img.shields.io/badge/aarch64-supported-208447)
+![ARMv7](https://img.shields.io/badge/armv7-legacy-64748B)
+![ARMhf](https://img.shields.io/badge/armhf%20%28ARMv6%29-legacy-64748B)
+![i386](https://img.shields.io/badge/i386-legacy-64748B)
 
-Keep Home Assistant's own backups for complete restores and consistent application data. A file sync of a running database does not guarantee a usable database backup. Copies containing secrets deserve the same care as the originals.
+[![Build checks](https://img.shields.io/github/actions/workflow/status/seb5594/Home-Assistant-Rsync-Local-Addon/checks.yml?branch=main&label=builds)](https://github.com/seb5594/Home-Assistant-Rsync-Local-Addon/actions/workflows/checks.yml)
+[![Stars](https://img.shields.io/github/stars/seb5594/Home-Assistant-Rsync-Local-Addon?style=flat&label=stars)](https://github.com/seb5594/Home-Assistant-Rsync-Local-Addon/stargazers)
+[![Issues](https://img.shields.io/github/issues/seb5594/Home-Assistant-Rsync-Local-Addon)](https://github.com/seb5594/Home-Assistant-Rsync-Local-Addon/issues)
+[![Last commit](https://img.shields.io/github/last-commit/seb5594/Home-Assistant-Rsync-Local-Addon?label=updated)](https://github.com/seb5594/Home-Assistant-Rsync-Local-Addon/commits/main)
+![License](https://img.shields.io/github/license/seb5594/Home-Assistant-Rsync-Local-Addon)
 
-## Version and maintenance
+The 32-bit builds are for legacy installations; they do not restore official Home Assistant platform support. A Supervisor with `all_addon_configs` folder-mapping support is required (verified against **2023.11.0** and current mapping rules). No artificial Core-version minimum is configured.
 
-Version **1.73** is built locally by Home Assistant from this repository. It does not download a Poeschl application image. Installation and updates need access to the Home Assistant base image and Alpine packages.
+The compact runtime uses Alpine Edge because that branch provides the requested **rsync 3.5.1-r0** and **coreutils 9.11-r1** packages. Their versions are locked; unavailable revisions stop a build instead of silently changing versions. Edge is a rolling development branch, not Alpine's stable release line.
 
-The build supports **AMD64**, **ARM64 / AArch64**, **ARMv7**, **ARMhf (ARMv6)**, and **i386**. There is **no configured Home Assistant Core minimum**: the app reads local files rather than calling Core APIs. Installation still requires a Supervisor-based Home Assistant installation with app/add-on support.
+There are no reliable public Home Assistant installation counts for this app. Local builds also do not produce measurable GitHub release downloads; project activity is shown instead of invented installation statistics.
 
-To remain compatible with older Supervisors, folder and device mappings use the legacy formats that newer Supervisors also migrate. The metadata was checked against the Supervisor **2020.12.7** schema as well as current migration rules; this is not a claim that every historical Home Assistant OS release was tested.
+## A sensible extra copy
 
-All five builds use the last official five-architecture Alpine 3.22 base release, **2025.11.1**. The 32-bit targets are provided as legacy compatibility: Home Assistant no longer maintains those platforms. This app does not restore official support or guarantee future base-image availability.
+The default options mirror deletions. Files removed from the source are removed from their corresponding USB destination folder too. There is no version history or encryption.
 
-The small, independent CI validates configuration and shell syntax and checks all five image builds. The optional notification workflow keeps the main app repository up to date. See [pipeline notes](.github/README.md) to build on these pieces.
+Keep Home Assistant's own backups for full restores and consistent database/application data. A running database is not safely backed up by an ordinary file copy. Protect the USB drive if it contains secrets.
 
 ## Credits
 
-Based on [Poeschl's Rsync Local add-on](https://github.com/Poeschl-HomeAssistant-Addons/rsync-local), with thanks for the original work. Maintained here by [Sebastian Schmidt (seb5594)](https://github.com/seb5594).
+Based on [Poeschl's original Rsync Local add-on](https://github.com/Poeschl-HomeAssistant-Addons/rsync-local), with thanks for the original work. Maintained by [Sebastian Schmidt (seb5594)](https://github.com/seb5594).
 
-Licensed under the [Apache License 2.0](LICENCE).
+[Apache License 2.0](LICENCE) · [Optional repository helpers](.github/README.md)
