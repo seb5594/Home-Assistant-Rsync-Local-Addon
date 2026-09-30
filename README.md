@@ -36,11 +36,15 @@ Each start performs one sync and exits. Later runs copy new and changed files. T
 
 ## Architectures and project activity
 
-![AMD64](https://img.shields.io/badge/amd64-supported-208447)
-![AArch64](https://img.shields.io/badge/aarch64-supported-208447)
-![ARMv7](https://img.shields.io/badge/armv7-legacy-64748B)
-![ARMhf](https://img.shields.io/badge/armhf%20%28ARMv6%29-legacy-64748B)
-![i386](https://img.shields.io/badge/i386-legacy-64748B)
+| Architecture | Measured image size |
+| --- | --- |
+| ![AMD64](https://img.shields.io/badge/amd64-supported-208447) | 16.8 MiB |
+| ![AArch64](https://img.shields.io/badge/aarch64-supported-208447) | 19.9 MiB |
+| ![ARMv7](https://img.shields.io/badge/armv7-legacy-64748B) | 12.1 MiB |
+| ![ARMhf](https://img.shields.io/badge/armhf%20%28ARMv6%29-legacy-64748B) | 15.1 MiB |
+| ![i386](https://img.shields.io/badge/i386-legacy-64748B) | 15.6 MiB |
+
+Uncompressed Docker image sizes measured for version 1.74 on 2026-09-30, not download sizes. Rolling dependencies may change later build sizes; each build reports its own measurement.
 
 [![Build checks](https://img.shields.io/github/actions/workflow/status/seb5594/Home-Assistant-Rsync-Local-Addon/checks.yml?branch=main&label=builds)](https://github.com/seb5594/Home-Assistant-Rsync-Local-Addon/actions/workflows/checks.yml)
 [![Stars](https://img.shields.io/github/stars/seb5594/Home-Assistant-Rsync-Local-Addon?style=flat&label=stars)](https://github.com/seb5594/Home-Assistant-Rsync-Local-Addon/stargazers)
