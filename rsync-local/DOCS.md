@@ -39,7 +39,7 @@ This example keeps `config`, `share`, and `media` as separate folders inside `ho
 
 The list of folders to copy. Choose full folders or smaller paths such as `/share/voice-resources` or `/media/playlists`.
 
-Available source roots are `/config`, `/share`, `/media`, `/backup`, `/addons`, `/ssl`, and `/addon_configs`. They are mounted read-only because this app only needs to read source files. Other apps' private `/data` directories are not exposed.
+Available source roots are `/config`, `/share`, `/media`, `/backup`, `/addons`, `/ssl`. They are mounted read-only because this app only needs to read source files. Other apps' private `/data` directories are not exposed. The newer `/addon_configs` mapping is deliberately omitted because very old Supervisors do not recognize it; use Home Assistant's own backups for other apps' data and configuration.
 
 ### `folders[].source`
 
@@ -78,11 +78,15 @@ The app runs once each time it is started. To run it every night at 03:00, creat
 ```yaml
 alias: Rsync Local - Nightly USB copy
 description: Copy selected Home Assistant files to the attached USB drive.
-triggers:
-  - trigger: time
+# Replaced: triggers:
+trigger:
+  # Replaced: - trigger: time
+  - platform: time
     at: "03:00:00"
-actions:
-  - action: hassio.addon_start
+# Replaced: actions:
+action:
+  # Replaced: - action: hassio.addon_start
+  - service: hassio.addon_start
     data:
       # Replace this with the full ID of your installed Rsync Local app.
       addon: YOUR_REPOSITORY_ID_rsync-local
