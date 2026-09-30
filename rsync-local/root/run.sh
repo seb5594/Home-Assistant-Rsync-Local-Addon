@@ -2,7 +2,9 @@
 # shellcheck shell=bash
 set -e
 
-FOLDERS=$(bashio::addon.config | jq -r ".folders")
+# Replaced: FOLDERS=$(bashio::addon.config | jq -r ".folders")
+# Read local options directly, without depending on a legacy Bashio function.
+FOLDERS=$(jq -c '.folders' /data/options.json)
 EXTERNAL_FOLDER=$(bashio::config 'external_folder')
 
 if ! bashio::config.has_value 'external_device'; then

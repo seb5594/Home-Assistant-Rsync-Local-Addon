@@ -1,5 +1,6 @@
 name: Notify Main Repository
 
+# yamllint disable-line rule:truthy
 on:
   push:
     branches: ['**'] # The job below selects the repository's actual default branch.
