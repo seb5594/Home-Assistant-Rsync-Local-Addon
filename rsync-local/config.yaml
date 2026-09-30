@@ -2,7 +2,8 @@ name: rsync local
 version: dev
 slug: rsync-local
 description: Sync folders to a external usb drive with rsync.
-url: https://github.com/Poeschl-HomeAssistant-Addons/rsync-local
+# Replaced: url: https://github.com/Poeschl-HomeAssistant-Addons/rsync-local
+url: https://github.com/seb5594/Home-Assistant-Rsync-Local-Addon
 arch:
   - armhf
   - armv7
