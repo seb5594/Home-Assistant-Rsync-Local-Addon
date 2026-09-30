@@ -32,8 +32,8 @@ jobs:
         run: yamllint .
       - name: Check shell script
         run: |
-          bash -n rsync-local/root/run.sh
-          shellcheck --shell=bash rsync-local/root/run.sh
+          bash -n rsync-local/root/run.sh .github/tests/runtime.sh
+          shellcheck --shell=bash rsync-local/root/run.sh .github/tests/runtime.sh
       - name: Check version and local build configuration
         run: |
           python3 - <<'PY'
@@ -45,16 +45,16 @@ jobs:
           version = config['version']
           assert isinstance(version, str), 'The app version must be a string.'
           assert f'**Version {version}**' in Path('README.md').read_text(), 'Update the README version.'
-          # Replaced: assert set(config['arch']) == {'amd64', 'aarch64'}, 'Keep build jobs and app architectures aligned.'
           build = yaml.safe_load(Path('rsync-local/build.yaml').read_text())['build_from']
           workflow = yaml.safe_load(Path('.github/workflows/checks.yml').read_text())
           matrix = workflow['jobs']['build']['strategy']['matrix']['include']
           assert set(config['arch']) == set(build) == {item['arch'] for item in matrix}, 'Keep architectures aligned.'
           assert 'homeassistant' not in config, 'Do not introduce an unnecessary Core version floor.'
-          # Compatibility contracts from the Supervisor 2020.12.7 schema.
           assert config['startup'] == 'application'
-          assert all(re.fullmatch(r'(config|ssl|addons|backup|share|media)(?::(rw|ro))?', item) for item in config['map'])
-          assert all(re.fullmatch(r'(.*):(.*):([rwm]{1,3})', item) for item in config['devices'])
+          assert set(config['map']) == {f'{name}:ro' for name in ['config', 'ssl', 'addons', 'backup', 'share', 'media', 'all_addon_configs']}
+          assert all(re.fullmatch(r'/dev/sd[a-e][1-5]', item) for item in config['devices'])
+          assert f'## {version}' in Path('rsync-local/CHANGELOG.md').read_text()
+          assert len(set(build.values())) == 1
           assert 'image' not in config, 'Add your image publishing pipeline before enabling a registry image.'
           PY
 
@@ -86,7 +86,6 @@ jobs:
             platform: linux/386
             alpine_arch: x86
     runs-on: ${{ matrix.runner }}
-    # Replaced: timeout-minutes: 15
     timeout-minutes: 25
     steps:
       - name: Check out source
@@ -99,7 +98,6 @@ jobs:
         with:
           platforms: arm
       - name: Build and inspect the app image
-        # This step is preceded by QEMU registration for the ARM legacy jobs.
         env:
           BUILD_ARCH: ${{ matrix.arch }}
           BUILD_PLATFORM: ${{ matrix.platform }}
@@ -108,7 +106,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y python3-yaml
           version=$(python3 -c "import yaml; print(yaml.safe_load(open('rsync-local/config.yaml'))['version'])")
-          # Replaced: docker build --pull \
           docker build --pull --platform "$BUILD_PLATFORM" \
             --build-arg "BUILD_VERSION=$version" \
             --build-arg "BUILD_ARCH=$BUILD_ARCH" \
@@ -122,9 +119,19 @@ jobs:
             --tag rsync-local:legacy-check rsync-local
           test "$(docker image inspect --format '{{.Id}}' rsync-local:check)" = \
             "$(docker image inspect --format '{{.Id}}' rsync-local:legacy-check)"
-          # Replaced: docker run --rm --entrypoint /bin/bash rsync-local:check \
-          # Replaced:   -c 'set -e; rsync --version; bash -n /run.sh; test -x /run.sh; test -x /usr/bin/bashio'
-          # Replaced: -c 'set -e; test "$(apk --print-arch)" = "$ALPINE_ARCH"; rsync --version; bash -n /run.sh; test -x /usr/bin/bashio'
           docker run --rm --platform "$BUILD_PLATFORM" \
             --env "ALPINE_ARCH=$ALPINE_ARCH" --entrypoint /bin/bash rsync-local:check \
-            -c 'set -e; test "$(apk --print-arch)" = "$ALPINE_ARCH"; rsync --version; bash -n /run.sh; test -x /run.sh; test -x /usr/bin/bashio'
+            -c 'set -e
+                test "$(apk --print-arch)" = "$ALPINE_ARCH"
+                test "$(apk info -v rsync)" = rsync-3.5.1-r0
+                test "$(apk info -v coreutils)" = coreutils-9.11-r1
+                bash -n /run.sh
+                test -x /run.sh
+                test "$(readlink /app_configs)" = /addon_configs
+                test "$(readlink /local_apps)" = /addons'
+          docker run --rm --platform "$BUILD_PLATFORM" \
+            --mount "type=bind,src=$PWD/.github/tests,dst=/tests,readonly" \
+            --entrypoint /bin/bash rsync-local:check /tests/runtime.sh
+          size=$(docker image inspect --format '{{.Size}}' rsync-local:check)
+          printf '### %s\n\nVersion: %s\n\nRsync: 3.5.1-r0 | Coreutils: 9.11-r1\n\nImage size: %s bytes (uncompressed)\n' \
+            "$BUILD_ARCH" "$version" "$size" >> "$GITHUB_STEP_SUMMARY"
