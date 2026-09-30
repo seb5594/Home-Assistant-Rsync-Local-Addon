@@ -1,6 +1,6 @@
 # Setup and Configuration
 
-**Version 1.74**
+**Version 1.74.1**
 
 Start here for the complete setup. The repository README is a short overview; this guide covers the USB drive, folder paths, options, scheduling, and recovery.
 
@@ -158,7 +158,7 @@ ha store reload
 ha apps info 4c7fee11_rsync-local
 ```
 
-Check `version_latest`, not just the installed `version`: it must show `1.74` before updating. Then use the app page's Update button, or:
+Check `version_latest`, not just the installed `version`: it must show `1.74.1` before updating. Then use the app page's Update button, or:
 
 ```bash
 ha apps update 4c7fee11_rsync-local
@@ -180,8 +180,8 @@ Mounting requires `SYS_ADMIN`, and AppArmor is disabled. Source volumes are read
 
 ## Runtime and Statistics
 
-Version 1.74 uses a compact Alpine Edge runtime with **rsync 3.5.1-r0** and **coreutils 9.11-r1** pinned exactly. There is no S6, Bashio, web server, or resident scheduler. The process exits after copying and uses a lower CPU scheduling priority while rsync runs.
+Version 1.74.1 installs rsync and coreutils from the selected Alpine base's configured repositories, without unavailable exact revision pins. There is no S6, Bashio, web server, or resident scheduler. The process exits after copying and uses a lower CPU scheduling priority while rsync runs.
 
-Edge is a rolling development branch. The base snapshot and requested package revisions are pinned, but dependency repositories still evolve. A missing pinned revision causes a build failure instead of a silent upgrade. All five architectures are checked with actual image builds and folder-copy tests.
+The default base uses Alpine Edge, a rolling development branch. Package versions follow the repositories configured by the selected base, including Supervisor `BUILD_FROM` overrides. No Alpine branches are mixed. All five architectures are checked with actual image builds and folder-copy tests; build summaries record installed package versions.
 
 GitHub badges show project/build activity, not Home Assistant installation counts. The app sends no telemetry. GitHub release-download totals would count attached release assets, not installations; this repository currently distributes local builds instead.
