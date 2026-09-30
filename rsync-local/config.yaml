@@ -1,114 +1,52 @@
-# Replaced: name: rsync local
 name: Rsync Local
-# Replaced: version: dev
-version: "1.73"
+version: "1.74"
 slug: rsync-local
-# Replaced: description: Sync folders to a external usb drive with rsync.
 description: Keep an extra local copy of your Home Assistant files on an attached USB drive.
-# Replaced: url: https://github.com/Poeschl-HomeAssistant-Addons/rsync-local
 url: https://github.com/seb5594/Home-Assistant-Rsync-Local-Addon
 arch:
-  # Disabled: - armhf (no longer supported by current Home Assistant base images)
-  # Disabled: - armv7 (no longer supported by current Home Assistant base images)
-  # Re-enabled using the last official five-architecture base release.
   - armhf
   - armv7
   - aarch64
   - amd64
-  # Disabled: - i386 (no longer supported by current Home Assistant base images)
   - i386
-# Replaced: homeassistant: 0.115.0
-# Disabled: homeassistant: "2026.4.0"
-# No Core version floor: the app reads local files and does not call the Core API.
 startup: application
 boot: manual
-init: false
-# Disabled: image: ghcr.io/poeschl-homeassistant-addons/rsync-local-{arch}
-# Build from this repository until an image publishing pipeline is configured.
-ports: {}
-ports_description: {}
+init: true
 map:
-  # Replaced: - share:rw
-  # Replaced: - type: share
-  # Replaced:   read_only: true
-  - share:ro
-  # Replaced: - config:rw
-  # Replaced: - type: homeassistant_config
-  # Replaced:   path: /config
-  # Replaced:   read_only: true
   - config:ro
-  # Replaced: - backup:rw
-  # Replaced: - type: backup
-  # Replaced:   read_only: true
-  - backup:ro
-  # Replaced: - addons:rw
-  # Replaced: - type: addons
-  # Replaced:   read_only: true
-  - addons:ro
-  # Replaced: - ssl:rw
-  # Replaced: - type: ssl
-  # Replaced:   read_only: true
-  - ssl:ro
-  # Replaced: - media:rw
-  # Replaced: - type: media
-  # Replaced:   read_only: true
+  - share:ro
   - media:ro
-  # Replaced: - addon_configs:rw
-  # Disabled: - type: all_addon_configs
-  # Disabled:   path: /addon_configs
-  # Disabled:   read_only: true
-  # This optional mapping is unknown to old Supervisors; keep the base schema portable.
+  - backup:ro
+  - ssl:ro
+  # Legacy names also resolve to the renamed host folders on current Supervisors.
+  - addons:ro
+  - all_addon_configs:ro
 devices:
-  # Replaced: - /dev/sda1
-  - /dev/sda1:/dev/sda1:rwm
-  # Replaced: - /dev/sda2
-  - /dev/sda2:/dev/sda2:rwm
-  # Replaced: - /dev/sda3
-  - /dev/sda3:/dev/sda3:rwm
-  # Replaced: - /dev/sda4
-  - /dev/sda4:/dev/sda4:rwm
-  # Replaced: - /dev/sda5
-  - /dev/sda5:/dev/sda5:rwm
-  # Replaced: - /dev/sdb1
-  - /dev/sdb1:/dev/sdb1:rwm
-  # Replaced: - /dev/sdb2
-  - /dev/sdb2:/dev/sdb2:rwm
-  # Replaced: - /dev/sdb3
-  - /dev/sdb3:/dev/sdb3:rwm
-  # Replaced: - /dev/sdb4
-  - /dev/sdb4:/dev/sdb4:rwm
-  # Replaced: - /dev/sdb5
-  - /dev/sdb5:/dev/sdb5:rwm
-  # Replaced: - /dev/sdc1
-  - /dev/sdc1:/dev/sdc1:rwm
-  # Replaced: - /dev/sdc2
-  - /dev/sdc2:/dev/sdc2:rwm
-  # Replaced: - /dev/sdc3
-  - /dev/sdc3:/dev/sdc3:rwm
-  # Replaced: - /dev/sdc4
-  - /dev/sdc4:/dev/sdc4:rwm
-  # Replaced: - /dev/sdc5
-  - /dev/sdc5:/dev/sdc5:rwm
-  # Replaced: - /dev/sdd1
-  - /dev/sdd1:/dev/sdd1:rwm
-  # Replaced: - /dev/sdd2
-  - /dev/sdd2:/dev/sdd2:rwm
-  # Replaced: - /dev/sdd3
-  - /dev/sdd3:/dev/sdd3:rwm
-  # Replaced: - /dev/sdd4
-  - /dev/sdd4:/dev/sdd4:rwm
-  # Replaced: - /dev/sdd5
-  - /dev/sdd5:/dev/sdd5:rwm
-  # Replaced: - /dev/sde1
-  - /dev/sde1:/dev/sde1:rwm
-  # Replaced: - /dev/sde2
-  - /dev/sde2:/dev/sde2:rwm
-  # Replaced: - /dev/sde3
-  - /dev/sde3:/dev/sde3:rwm
-  # Replaced: - /dev/sde4
-  - /dev/sde4:/dev/sde4:rwm
-  # Replaced: - /dev/sde5
-  - /dev/sde5:/dev/sde5:rwm
+  - /dev/sda1
+  - /dev/sda2
+  - /dev/sda3
+  - /dev/sda4
+  - /dev/sda5
+  - /dev/sdb1
+  - /dev/sdb2
+  - /dev/sdb3
+  - /dev/sdb4
+  - /dev/sdb5
+  - /dev/sdc1
+  - /dev/sdc2
+  - /dev/sdc3
+  - /dev/sdc4
+  - /dev/sdc5
+  - /dev/sdd1
+  - /dev/sdd2
+  - /dev/sdd3
+  - /dev/sdd4
+  - /dev/sdd5
+  - /dev/sde1
+  - /dev/sde2
+  - /dev/sde3
+  - /dev/sde4
+  - /dev/sde5
 privileged:
   - SYS_ADMIN
 apparmor: false
@@ -116,8 +54,8 @@ schema:
   folders:
     - source: str
       options: str?
-  external_folder: match(^[^/].+)
-  external_device: match(^(/dev/sd[a|b|c|d|e][1|2|3|4|5])?)
+  external_folder: match(^[^/].*$)
+  external_device: match(^(/dev/sd[a-e][1-5])?$)
 options:
   folders:
     - source: /config
