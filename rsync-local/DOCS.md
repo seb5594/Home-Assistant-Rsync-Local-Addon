@@ -136,7 +136,7 @@ ha store reload
 
 Check the version offered in the app page before installing or updating. For `https://github.com/seb5594/Home-Assistant-Apps`, the repository ID is `4c7fee11` and the app ID is `4c7fee11_rsync-local`.
 
-If refreshing still leaves obsolete `dev` metadata or repository Git errors, repair only this repository and refresh again:
+If the Supervisor log reports repository Git/checkout errors, repair only this repository and refresh again:
 
 ```bash
 ha store repair 4c7fee11
@@ -144,6 +144,27 @@ ha store reload
 ```
 
 Repository repair reclones the catalog; it does not uninstall the app or erase your saved app options. There is no need to uninstall Rsync Local to refresh its store metadata.
+
+If a successful repair is followed by the same old `:dev` update attempt, restart Supervisor to reload the store data from disk. Some Supervisor versions refresh in-memory app metadata only when a repository pull changes the Git commit; after a repair the checkout is already current, so another store reload can leave stale metadata in memory.
+
+```bash
+ha supervisor restart
+```
+
+Wait until Supervisor is available again, then run:
+
+```bash
+ha store reload
+ha apps info 4c7fee11_rsync-local
+```
+
+Check `version_latest`, not just the installed `version`: it must show `1.74` before updating. Then use the app page's Update button, or:
+
+```bash
+ha apps update 4c7fee11_rsync-local
+```
+
+If `version_latest` still reports `dev`, collect `ha supervisor info`, the app information above, and the repository-update log rather than retrying the failed image download. A Supervisor restart restarts its management service, not the entire HAOS host.
 
 New versions must first be published to the source repository's default branch and synchronized into the catalog. Repository maintainers can trigger synchronization with **Home-Assistant-Apps → Actions → Synchronize app catalog → Run workflow** on `main`. A Home Assistant store refresh cannot expose a version that is still only in a pull request.
 
