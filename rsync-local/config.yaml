@@ -1,29 +1,49 @@
-name: rsync local
-version: dev
+name: Rsync Local
+# Replaced: version: dev
+version: "1.73"
 slug: rsync-local
-description: Sync folders to a external usb drive with rsync.
+# Replaced: description: Sync folders to a external usb drive with rsync.
+description: Keep an extra local copy of your Home Assistant files on an attached USB drive.
 # Replaced: url: https://github.com/Poeschl-HomeAssistant-Addons/rsync-local
 url: https://github.com/seb5594/Home-Assistant-Rsync-Local-Addon
 arch:
-  - armhf
-  - armv7
+  # Disabled: - armhf (no longer supported by current Home Assistant base images)
+  # Disabled: - armv7 (no longer supported by current Home Assistant base images)
   - aarch64
   - amd64
-  - i386
-homeassistant: 0.115.0
+  # Disabled: - i386 (no longer supported by current Home Assistant base images)
+# Replaced: homeassistant: 0.115.0
+homeassistant: "2026.4.0"
 boot: manual
 init: false
-image: ghcr.io/poeschl-homeassistant-addons/rsync-local-{arch}
+# Disabled: image: ghcr.io/poeschl-homeassistant-addons/rsync-local-{arch}
+# Build from this repository until an image publishing pipeline is configured.
 ports: {}
 ports_description: {}
 map:
-  - share:rw
-  - config:rw
-  - backup:rw
-  - addons:rw
-  - ssl:rw
-  - media:rw
-  - addon_configs:rw
+  # Replaced: - share:rw
+  - type: share
+    read_only: true
+  # Replaced: - config:rw
+  - type: homeassistant_config
+    path: /config
+    read_only: true
+  # Replaced: - backup:rw
+  - type: backup
+    read_only: true
+  # Replaced: - addons:rw
+  - type: addons
+    read_only: true
+  # Replaced: - ssl:rw
+  - type: ssl
+    read_only: true
+  # Replaced: - media:rw
+  - type: media
+    read_only: true
+  # Replaced: - addon_configs:rw
+  - type: all_addon_configs
+    path: /addon_configs
+    read_only: true
 devices:
   - /dev/sda1
   - /dev/sda2
