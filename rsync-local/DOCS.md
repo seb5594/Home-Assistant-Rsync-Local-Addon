@@ -8,6 +8,8 @@ Start here for the complete setup. The repository README is a short overview; th
 
 Use a partitioned, formatted USB stick, USB hard drive, or USB SSD with a filesystem supported by your Home Assistant OS installation. The app does not format drives.
 
+A Linux filesystem such as ext4 is a good fit for `--archive`, which preserves ownership, permissions, and symbolic links. FAT/exFAT cannot preserve all Linux metadata; use suitable explicit options such as `--archive --no-owner --no-group --no-perms` and check the log and resulting files.
+
 For a virtual machine, pass the USB storage device through to the Home Assistant OS guest.
 
 Leave `external_device` empty and start the app. The log lists exposed candidate partitions without copying anything. Identify your USB partition, for example `/dev/sdb1`, and enter it in the options.
