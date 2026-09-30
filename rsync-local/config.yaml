@@ -1,0 +1,86 @@
+name: Rsync Local
+# Replaced: version: dev
+version: "1.73"
+slug: rsync-local
+# Replaced: description: Sync folders to a external usb drive with rsync.
+description: Keep an extra local copy of your Home Assistant files on an attached USB drive.
+# Replaced: url: https://github.com/Poeschl-HomeAssistant-Addons/rsync-local
+url: https://github.com/seb5594/Home-Assistant-Rsync-Local-Addon
+arch:
+  # Disabled: - armhf (no longer supported by current Home Assistant base images)
+  # Disabled: - armv7 (no longer supported by current Home Assistant base images)
+  - aarch64
+  - amd64
+  # Disabled: - i386 (no longer supported by current Home Assistant base images)
+# Replaced: homeassistant: 0.115.0
+homeassistant: "2026.4.0"
+boot: manual
+init: false
+# Disabled: image: ghcr.io/poeschl-homeassistant-addons/rsync-local-{arch}
+# Build from this repository until an image publishing pipeline is configured.
+ports: {}
+ports_description: {}
+map:
+  # Replaced: - share:rw
+  - type: share
+    read_only: true
+  # Replaced: - config:rw
+  - type: homeassistant_config
+    path: /config
+    read_only: true
+  # Replaced: - backup:rw
+  - type: backup
+    read_only: true
+  # Replaced: - addons:rw
+  - type: addons
+    read_only: true
+  # Replaced: - ssl:rw
+  - type: ssl
+    read_only: true
+  # Replaced: - media:rw
+  - type: media
+    read_only: true
+  # Replaced: - addon_configs:rw
+  - type: all_addon_configs
+    path: /addon_configs
+    read_only: true
+devices:
+  - /dev/sda1
+  - /dev/sda2
+  - /dev/sda3
+  - /dev/sda4
+  - /dev/sda5
+  - /dev/sdb1
+  - /dev/sdb2
+  - /dev/sdb3
+  - /dev/sdb4
+  - /dev/sdb5
+  - /dev/sdc1
+  - /dev/sdc2
+  - /dev/sdc3
+  - /dev/sdc4
+  - /dev/sdc5
+  - /dev/sdd1
+  - /dev/sdd2
+  - /dev/sdd3
+  - /dev/sdd4
+  - /dev/sdd5
+  - /dev/sde1
+  - /dev/sde2
+  - /dev/sde3
+  - /dev/sde4
+  - /dev/sde5
+privileged:
+  - SYS_ADMIN
+apparmor: false
+schema:
+  folders:
+    - source: str
+      options: str?
+  external_folder: match(^[^/].+)
+  external_device: match(^(/dev/sd[a|b|c|d|e][1|2|3|4|5])?)
+options:
+  folders:
+    - source: /config
+  external_folder: backup
+  external_device: ""

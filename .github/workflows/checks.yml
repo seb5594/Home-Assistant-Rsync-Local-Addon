@@ -1,0 +1,81 @@
+name: Check Rsync Local
+
+# yamllint disable-line rule:truthy
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: checks-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: YAML and shell checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Install validation tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y shellcheck yamllint python3-yaml
+      - name: Validate YAML
+        run: yamllint .
+      - name: Check shell script
+        run: |
+          bash -n rsync-local/root/run.sh
+          shellcheck --shell=bash rsync-local/root/run.sh
+      - name: Check version and local build configuration
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import yaml
+
+          config = yaml.safe_load(Path('rsync-local/config.yaml').read_text())
+          version = config['version']
+          assert isinstance(version, str), 'The app version must be a string.'
+          assert f'**Version {version}**' in Path('README.md').read_text(), 'Update the README version.'
+          assert set(config['arch']) == {'amd64', 'aarch64'}, 'Keep build jobs and app architectures aligned.'
+          assert 'image' not in config, 'Add your image publishing pipeline before enabling a registry image.'
+          PY
+
+  build:
+    name: Build ${{ matrix.arch }}
+    needs: lint
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: amd64
+            runner: ubuntu-24.04
+          - arch: aarch64
+            runner: ubuntu-24.04-arm
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 15
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Build and inspect the app image
+        env:
+          BUILD_ARCH: ${{ matrix.arch }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y python3-yaml
+          version=$(python3 -c "import yaml; print(yaml.safe_load(open('rsync-local/config.yaml'))['version'])")
+          docker build --pull \
+            --build-arg "BUILD_VERSION=$version" \
+            --build-arg "BUILD_ARCH=$BUILD_ARCH" \
+            --tag rsync-local:check rsync-local
+          docker run --rm --entrypoint /bin/bash rsync-local:check \
+            -c 'set -e; rsync --version; bash -n /run.sh; test -x /run.sh; test -x /usr/bin/bashio'
