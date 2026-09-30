@@ -7,6 +7,7 @@
 - Back up other apps' exposed configuration using either `/app_configs` or `/addon_configs`.
 - Back up locally developed apps using `/local_apps`, `/addons`, or the convenience alias `/local_addons`.
 - Store-visible changelog, a complete setup guide, and individual architecture/project badges.
+- Store refresh and targeted repository-repair instructions for obsolete upstream `:dev` image errors.
 - Runtime checks for invalid devices, unsafe destination paths, missing sources, and colliding destination names.
 - Automatic unmount attempts on completion, copy errors, and handled stop signals.
 - Real folder-copy and failure-path tests in the five-architecture build checks.
