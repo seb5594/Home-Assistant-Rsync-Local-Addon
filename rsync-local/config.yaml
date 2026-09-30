@@ -10,11 +10,17 @@ url: https://github.com/seb5594/Home-Assistant-Rsync-Local-Addon
 arch:
   # Disabled: - armhf (no longer supported by current Home Assistant base images)
   # Disabled: - armv7 (no longer supported by current Home Assistant base images)
+  # Re-enabled using the last official five-architecture base release.
+  - armhf
+  - armv7
   - aarch64
   - amd64
   # Disabled: - i386 (no longer supported by current Home Assistant base images)
+  - i386
 # Replaced: homeassistant: 0.115.0
-homeassistant: "2026.4.0"
+# Disabled: homeassistant: "2026.4.0"
+# No Core version floor: the app reads local files and does not call the Core API.
+startup: application
 boot: manual
 init: false
 # Disabled: image: ghcr.io/poeschl-homeassistant-addons/rsync-local-{arch}
@@ -23,54 +29,86 @@ ports: {}
 ports_description: {}
 map:
   # Replaced: - share:rw
-  - type: share
-    read_only: true
+  # Replaced: - type: share
+  # Replaced:   read_only: true
+  - share:ro
   # Replaced: - config:rw
-  - type: homeassistant_config
-    path: /config
-    read_only: true
+  # Replaced: - type: homeassistant_config
+  # Replaced:   path: /config
+  # Replaced:   read_only: true
+  - config:ro
   # Replaced: - backup:rw
-  - type: backup
-    read_only: true
+  # Replaced: - type: backup
+  # Replaced:   read_only: true
+  - backup:ro
   # Replaced: - addons:rw
-  - type: addons
-    read_only: true
+  # Replaced: - type: addons
+  # Replaced:   read_only: true
+  - addons:ro
   # Replaced: - ssl:rw
-  - type: ssl
-    read_only: true
+  # Replaced: - type: ssl
+  # Replaced:   read_only: true
+  - ssl:ro
   # Replaced: - media:rw
-  - type: media
-    read_only: true
+  # Replaced: - type: media
+  # Replaced:   read_only: true
+  - media:ro
   # Replaced: - addon_configs:rw
-  - type: all_addon_configs
-    path: /addon_configs
-    read_only: true
+  # Disabled: - type: all_addon_configs
+  # Disabled:   path: /addon_configs
+  # Disabled:   read_only: true
+  # This optional mapping is unknown to old Supervisors; keep the base schema portable.
 devices:
-  - /dev/sda1
-  - /dev/sda2
-  - /dev/sda3
-  - /dev/sda4
-  - /dev/sda5
-  - /dev/sdb1
-  - /dev/sdb2
-  - /dev/sdb3
-  - /dev/sdb4
-  - /dev/sdb5
-  - /dev/sdc1
-  - /dev/sdc2
-  - /dev/sdc3
-  - /dev/sdc4
-  - /dev/sdc5
-  - /dev/sdd1
-  - /dev/sdd2
-  - /dev/sdd3
-  - /dev/sdd4
-  - /dev/sdd5
-  - /dev/sde1
-  - /dev/sde2
-  - /dev/sde3
-  - /dev/sde4
-  - /dev/sde5
+  # Replaced: - /dev/sda1
+  - /dev/sda1:/dev/sda1:rwm
+  # Replaced: - /dev/sda2
+  - /dev/sda2:/dev/sda2:rwm
+  # Replaced: - /dev/sda3
+  - /dev/sda3:/dev/sda3:rwm
+  # Replaced: - /dev/sda4
+  - /dev/sda4:/dev/sda4:rwm
+  # Replaced: - /dev/sda5
+  - /dev/sda5:/dev/sda5:rwm
+  # Replaced: - /dev/sdb1
+  - /dev/sdb1:/dev/sdb1:rwm
+  # Replaced: - /dev/sdb2
+  - /dev/sdb2:/dev/sdb2:rwm
+  # Replaced: - /dev/sdb3
+  - /dev/sdb3:/dev/sdb3:rwm
+  # Replaced: - /dev/sdb4
+  - /dev/sdb4:/dev/sdb4:rwm
+  # Replaced: - /dev/sdb5
+  - /dev/sdb5:/dev/sdb5:rwm
+  # Replaced: - /dev/sdc1
+  - /dev/sdc1:/dev/sdc1:rwm
+  # Replaced: - /dev/sdc2
+  - /dev/sdc2:/dev/sdc2:rwm
+  # Replaced: - /dev/sdc3
+  - /dev/sdc3:/dev/sdc3:rwm
+  # Replaced: - /dev/sdc4
+  - /dev/sdc4:/dev/sdc4:rwm
+  # Replaced: - /dev/sdc5
+  - /dev/sdc5:/dev/sdc5:rwm
+  # Replaced: - /dev/sdd1
+  - /dev/sdd1:/dev/sdd1:rwm
+  # Replaced: - /dev/sdd2
+  - /dev/sdd2:/dev/sdd2:rwm
+  # Replaced: - /dev/sdd3
+  - /dev/sdd3:/dev/sdd3:rwm
+  # Replaced: - /dev/sdd4
+  - /dev/sdd4:/dev/sdd4:rwm
+  # Replaced: - /dev/sdd5
+  - /dev/sdd5:/dev/sdd5:rwm
+  # Replaced: - /dev/sde1
+  - /dev/sde1:/dev/sde1:rwm
+  # Replaced: - /dev/sde2
+  - /dev/sde2:/dev/sde2:rwm
+  # Replaced: - /dev/sde3
+  - /dev/sde3:/dev/sde3:rwm
+  # Replaced: - /dev/sde4
+  - /dev/sde4:/dev/sde4:rwm
+  # Replaced: - /dev/sde5
+  - /dev/sde5:/dev/sde5:rwm
 privileged:
   - SYS_ADMIN
 apparmor: false

@@ -1,7 +1,7 @@
 # Rsync Local for Home Assistant
 
 ![Version 1.73](https://img.shields.io/badge/version-1.73-167D8D?style=for-the-badge)
-![AMD64 and ARM64](https://img.shields.io/badge/architectures-amd64%20%7C%20aarch64-41BDF5?style=for-the-badge)
+![Five architectures](https://img.shields.io/badge/architectures-amd64%20%7C%20aarch64%20%7C%20armv7%20%7C%20armhf%20%7C%20i386-41BDF5?style=for-the-badge)
 
 **Version 1.73**
 
@@ -15,7 +15,7 @@ Plug a USB stick, USB hard drive, or USB SSD directly into your Home Assistant s
 
 - Home Assistant configuration, automations, scripts, dashboards, and `secrets.yaml` from `/config`.
 - Selected files or entire folders from `/share` and `/media`, such as voice resources, playlists, and documents.
-- Other exposed folders, including `/ssl`, `/backup`, and `/addon_configs`, when you include them in the configuration.
+- Other exposed folders, including `/ssl`, `/backup`, and `/addons`, when you include them in the configuration.
 
 Rsync copies new and changed files on later runs, so you do not have to copy everything from scratch each time. You decide whether to include a whole folder or just a smaller collection of essentials.
 
@@ -41,9 +41,13 @@ Keep Home Assistant's own backups for complete restores and consistent applicati
 
 Version **1.73** is built locally by Home Assistant from this repository. It does not download a Poeschl application image. Installation and updates need access to the Home Assistant base image and Alpine packages.
 
-The current build supports **AMD64** and **ARM64 / AArch64**, the architectures supported by current Home Assistant base images. The minimum configured Home Assistant Core version is **2026.4.0**; use a current Supervisor as well.
+The build supports **AMD64**, **ARM64 / AArch64**, **ARMv7**, **ARMhf (ARMv6)**, and **i386**. There is **no configured Home Assistant Core minimum**: the app reads local files rather than calling Core APIs. Installation still requires a Supervisor-based Home Assistant installation with app/add-on support.
 
-The small, independent CI validates configuration and shell syntax and checks both image builds. The optional notification workflow keeps the main app repository up to date. See [pipeline notes](.github/README.md) to build on these pieces.
+To remain compatible with older Supervisors, folder and device mappings use the legacy formats that newer Supervisors also migrate. The metadata was checked against the Supervisor **2020.12.7** schema as well as current migration rules; this is not a claim that every historical Home Assistant OS release was tested.
+
+All five builds use the last official five-architecture Alpine 3.22 base release, **2025.11.1**. The 32-bit targets are provided as legacy compatibility: Home Assistant no longer maintains those platforms. This app does not restore official support or guarantee future base-image availability.
+
+The small, independent CI validates configuration and shell syntax and checks all five image builds. The optional notification workflow keeps the main app repository up to date. See [pipeline notes](.github/README.md) to build on these pieces.
 
 ## Credits
 
