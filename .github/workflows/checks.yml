@@ -38,13 +38,23 @@ jobs:
         run: |
           python3 - <<'PY'
           from pathlib import Path
+          import re
           import yaml
 
           config = yaml.safe_load(Path('rsync-local/config.yaml').read_text())
           version = config['version']
           assert isinstance(version, str), 'The app version must be a string.'
           assert f'**Version {version}**' in Path('README.md').read_text(), 'Update the README version.'
-          assert set(config['arch']) == {'amd64', 'aarch64'}, 'Keep build jobs and app architectures aligned.'
+          # Replaced: assert set(config['arch']) == {'amd64', 'aarch64'}, 'Keep build jobs and app architectures aligned.'
+          build = yaml.safe_load(Path('rsync-local/build.yaml').read_text())['build_from']
+          workflow = yaml.safe_load(Path('.github/workflows/checks.yml').read_text())
+          matrix = workflow['jobs']['build']['strategy']['matrix']['include']
+          assert set(config['arch']) == set(build) == {item['arch'] for item in matrix}, 'Keep architectures aligned.'
+          assert 'homeassistant' not in config, 'Do not introduce an unnecessary Core version floor.'
+          # Compatibility contracts from the Supervisor 2020.12.7 schema.
+          assert config['startup'] == 'application'
+          assert all(re.fullmatch(r'(config|ssl|addons|backup|share|media)(?::(rw|ro))?', item) for item in config['map'])
+          assert all(re.fullmatch(r'(.*):(.*):([rwm]{1,3})', item) for item in config['devices'])
           assert 'image' not in config, 'Add your image publishing pipeline before enabling a registry image.'
           PY
 
@@ -57,25 +67,64 @@ jobs:
         include:
           - arch: amd64
             runner: ubuntu-24.04
+            platform: linux/amd64
+            alpine_arch: x86_64
           - arch: aarch64
             runner: ubuntu-24.04-arm
+            platform: linux/arm64
+            alpine_arch: aarch64
+          - arch: armv7
+            runner: ubuntu-24.04
+            platform: linux/arm/v7
+            alpine_arch: armv7
+          - arch: armhf
+            runner: ubuntu-24.04
+            platform: linux/arm/v6
+            alpine_arch: armhf
+          - arch: i386
+            runner: ubuntu-24.04
+            platform: linux/386
+            alpine_arch: x86
     runs-on: ${{ matrix.runner }}
-    timeout-minutes: 15
+    # Replaced: timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - name: Check out source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
+      - name: Enable ARM emulation for legacy builds
+        if: matrix.arch == 'armv7' || matrix.arch == 'armhf'
+        uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3
+        with:
+          platforms: arm
       - name: Build and inspect the app image
+        # This step is preceded by QEMU registration for the ARM legacy jobs.
         env:
           BUILD_ARCH: ${{ matrix.arch }}
+          BUILD_PLATFORM: ${{ matrix.platform }}
+          ALPINE_ARCH: ${{ matrix.alpine_arch }}
         run: |
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y python3-yaml
           version=$(python3 -c "import yaml; print(yaml.safe_load(open('rsync-local/config.yaml'))['version'])")
-          docker build --pull \
+          # Replaced: docker build --pull \
+          docker build --pull --platform "$BUILD_PLATFORM" \
             --build-arg "BUILD_VERSION=$version" \
             --build-arg "BUILD_ARCH=$BUILD_ARCH" \
             --tag rsync-local:check rsync-local
-          docker run --rm --entrypoint /bin/bash rsync-local:check \
-            -c 'set -e; rsync --version; bash -n /run.sh; test -x /run.sh; test -x /usr/bin/bashio'
+          # Verify the legacy build.yaml override resolves to the same base.
+          legacy_from=$(python3 -c "import os,yaml; print(yaml.safe_load(open('rsync-local/build.yaml'))['build_from'][os.environ['BUILD_ARCH']])")
+          docker build --platform "$BUILD_PLATFORM" \
+            --build-arg "BUILD_FROM=$legacy_from" \
+            --build-arg "BUILD_VERSION=$version" \
+            --build-arg "BUILD_ARCH=$BUILD_ARCH" \
+            --tag rsync-local:legacy-check rsync-local
+          test "$(docker image inspect --format '{{.Id}}' rsync-local:check)" = \
+            "$(docker image inspect --format '{{.Id}}' rsync-local:legacy-check)"
+          # Replaced: docker run --rm --entrypoint /bin/bash rsync-local:check \
+          # Replaced:   -c 'set -e; rsync --version; bash -n /run.sh; test -x /run.sh; test -x /usr/bin/bashio'
+          # Replaced: -c 'set -e; test "$(apk --print-arch)" = "$ALPINE_ARCH"; rsync --version; bash -n /run.sh; test -x /usr/bin/bashio'
+          docker run --rm --platform "$BUILD_PLATFORM" \
+            --env "ALPINE_ARCH=$ALPINE_ARCH" --entrypoint /bin/bash rsync-local:check \
+            -c 'set -e; test "$(apk --print-arch)" = "$ALPINE_ARCH"; rsync --version; bash -n /run.sh; test -x /run.sh; test -x /usr/bin/bashio'
