@@ -1,19 +1,19 @@
 # Rsync Local
 
-![Version 1.73](https://img.shields.io/badge/version-1.73-167D8D?style=for-the-badge)
+**Version 1.74**
 
-**Version 1.73**
+![Version](https://img.shields.io/badge/version-1.74-167D8D?style=for-the-badge)
 
-Keep an extra copy of the Home Assistant files you would miss most: configurations, automations, secrets, and important resources from `/share` and `/media`.
+Keep an extra copy of **`/config`**, your Home Assistant configuration and secrets, plus important files from `/share`, `/media`, and other apps' exposed configuration folders.
 
-Connect a USB stick, USB hard drive, or USB SSD directly to your Home Assistant server, choose your folders, and schedule regular runs with a Home Assistant automation. It is a simple additional backup destination at home, whether or not you already use a NAS.
+Connect a USB stick, USB hard drive, or USB SSD directly to the Home Assistant server. Choose your folders and schedule regular runs with a Home Assistant automation. No NAS or cloud account is required.
 
-Each start performs one rsync run and then exits. Later runs copy new and changed files. The default options mirror deletions too; this app does not provide version history or encryption.
+Both `/app_configs` and `/addon_configs` work as source paths. Local apps can be copied from `/local_apps` or the older `/addons` path. These names are aliases, so select only one path for each set of files.
 
-For complete restores and consistent database backups, keep using Home Assistant's own backups alongside your local file copies.
+Each start runs one sync and exits. Default options mirror deletions; there is no encryption or version history. Keep Home Assistant's own backups for complete restores and consistent database data.
 
-**Architectures:** AMD64, AArch64, ARMv7, ARMhf (ARMv6), and i386. No artificial Home Assistant Core version floor is configured; a Supervisor-based installation is required. The 32-bit builds are provided for legacy installations, not as official Home Assistant platform support.
+**[Configuration and scheduling](DOCS.md)** · **[Changelog](CHANGELOG.md)**
 
-Read the [configuration and scheduling guide](DOCS.md) to get started.
+AMD64, AArch64, ARMv7, ARMhf, and i386 builds are included. A Supervisor with `all_addon_configs` mapping support is required; Core has no artificial version floor. The pinned packages come from Alpine Edge.
 
-Maintained by [seb5594](https://github.com/seb5594), based on [Poeschl's original Rsync Local add-on](https://github.com/Poeschl-HomeAssistant-Addons/rsync-local). Licensed under the Apache License 2.0.
+Based on [Poeschl's original add-on](https://github.com/Poeschl-HomeAssistant-Addons/rsync-local). Maintained by [seb5594](https://github.com/seb5594). Apache License 2.0.
