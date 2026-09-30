@@ -133,4 +133,4 @@ jobs:
             --entrypoint /bin/bash rsync-local:check /tests/runtime.sh
           size=$(docker image inspect --format '{{.Size}}' rsync-local:check)
           printf '### %s\n\nVersion: %s\n\nRsync: 3.5.1-r0 | Coreutils: 9.11-r1\n\nImage size: %s bytes (uncompressed)\n' \
-            "$BUILD_ARCH" "$version" "$size" >> "$GITHUB_STEP_SUMMARY"
+            "$BUILD_ARCH" "$version" "$size" | tee -a "$GITHUB_STEP_SUMMARY"
