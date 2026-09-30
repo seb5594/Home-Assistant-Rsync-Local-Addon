@@ -123,8 +123,7 @@ jobs:
             --env "ALPINE_ARCH=$ALPINE_ARCH" --entrypoint /bin/bash rsync-local:check \
             -c 'set -e
                 test "$(apk --print-arch)" = "$ALPINE_ARCH"
-                test "$(apk info -v rsync)" = rsync-3.5.1-r0
-                test "$(apk info -v coreutils)" = coreutils-9.11-r1
+                apk info --exists rsync=3.5.1-r0 coreutils=9.11-r1
                 bash -n /run.sh
                 test -x /run.sh
                 test "$(readlink /app_configs)" = /addon_configs
