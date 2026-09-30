@@ -8,7 +8,7 @@ passed=0
 
 setup() {
   local scenario=$1
-  # shellcheck source=../../rsync-local/root/run.sh
+  # shellcheck source=rsync-local/root/run.sh
   source "${RUN_SCRIPT:-/run.sh}"
   CASE_ROOT="$fixture/$scenario"
   mkdir -p "$CASE_ROOT"/{config,share,addons,addon_configs,usb,outside}
@@ -37,6 +37,7 @@ scenario() {
   setup "$name"
   case $name in
     aliases)
+      # shellcheck disable=SC2016
       change_options --arg configs "$CASE_ROOT/app_configs" --arg apps "$CASE_ROOT/local_apps" \
         '.folders += [{source: $configs}, {source: $apps}]'
       ;;
