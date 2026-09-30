@@ -44,7 +44,9 @@ jobs:
           config = yaml.safe_load(Path('rsync-local/config.yaml').read_text())
           version = config['version']
           assert isinstance(version, str), 'The app version must be a string.'
-          assert f'**Version {version}**' in Path('README.md').read_text(), 'Update the README version.'
+          # Replaced: assert f'**Version {version}**' in Path('README.md').read_text(), 'Update the README version.'
+          for readme in ('README.md', 'rsync-local/README.md'):
+              assert f'version-{version}-' in Path(readme).read_text(), 'Update the README version badge.'
           build = yaml.safe_load(Path('rsync-local/build.yaml').read_text())['build_from']
           workflow = yaml.safe_load(Path('.github/workflows/checks.yml').read_text())
           matrix = workflow['jobs']['build']['strategy']['matrix']['include']
@@ -123,7 +125,10 @@ jobs:
             --env "ALPINE_ARCH=$ALPINE_ARCH" --entrypoint /bin/bash rsync-local:check \
             -c 'set -e
                 test "$(apk --print-arch)" = "$ALPINE_ARCH"
-                apk info --exists rsync=3.5.1-r0 coreutils=9.11-r1
+                # Replaced: apk info --exists rsync=3.5.1-r0 coreutils=9.11-r1
+                apk info --exists rsync coreutils
+                rsync --version
+                realpath --version
                 bash -n /run.sh
                 test -x /run.sh
                 test "$(readlink /app_configs)" = /addon_configs
@@ -132,5 +137,8 @@ jobs:
             --mount "type=bind,src=$PWD/.github/tests,dst=/tests,readonly" \
             --entrypoint /bin/bash rsync-local:check /tests/runtime.sh
           size=$(docker image inspect --format '{{.Size}}' rsync-local:check)
-          printf '### %s\n\nVersion: %s\n\nRsync: 3.5.1-r0 | Coreutils: 9.11-r1\n\nImage size: %s bytes (uncompressed)\n' \
-            "$BUILD_ARCH" "$version" "$size" | tee -a "$GITHUB_STEP_SUMMARY"
+          # Replaced: printf '### %s\n\nVersion: %s\n\nRsync: 3.5.1-r0 | Coreutils: 9.11-r1\n\nImage size: %s bytes (uncompressed)\n' \
+          # Replaced:   "$BUILD_ARCH" "$version" "$size" | tee -a "$GITHUB_STEP_SUMMARY"
+          packages=$(docker run --rm --platform "$BUILD_PLATFORM" --entrypoint /sbin/apk rsync-local:check info -v rsync coreutils)
+          printf '### %s\n\nVersion: %s\n\nPackages:\n%s\n\nImage size: %s bytes (uncompressed)\n' \
+            "$BUILD_ARCH" "$version" "$packages" "$size" | tee -a "$GITHUB_STEP_SUMMARY"

@@ -1,10 +1,8 @@
 # Rsync Local
 
-**Version 1.74**
-
-![Version](https://img.shields.io/badge/version-1.74-167D8D?style=for-the-badge)
-![Rsync](https://img.shields.io/badge/rsync-3.5.1--r0-167D8D?style=for-the-badge)
-![Coreutils](https://img.shields.io/badge/coreutils-9.11--r1-167D8D?style=for-the-badge)
+![Version](https://img.shields.io/badge/version-1.74.1-167D8D?style=for-the-badge)
+![Rsync](https://img.shields.io/badge/rsync-base%20repository-167D8D?style=for-the-badge)
+![Coreutils](https://img.shields.io/badge/coreutils-base%20repository-167D8D?style=for-the-badge)
 
 Back up **`/config`**, including your automations, dashboards, scripts, and `secrets.yaml`, to a USB stick, USB hard drive, or USB SSD attached directly to your Home Assistant server. Keep the important resources from `/share`, `/media`, and your app configuration folders alongside them.
 
@@ -54,7 +52,7 @@ Uncompressed Docker image sizes measured for version 1.74 on 2026-09-30, not dow
 
 The 32-bit builds are for legacy installations; they do not restore official Home Assistant platform support. A Supervisor with `all_addon_configs` folder-mapping support is required (verified against **2023.11.0** and current mapping rules). No artificial Core-version minimum is configured.
 
-The compact runtime uses Alpine Edge because that branch provides the requested **rsync 3.5.1-r0** and **coreutils 9.11-r1** packages. Their versions are locked; unavailable revisions stop a build instead of silently changing versions. Edge is a rolling development branch, not Alpine's stable release line.
+The compact runtime installs rsync and coreutils from the selected Alpine base's configured repositories. Version 1.74.1 removes unavailable exact package revisions so local builds also work when Supervisor overrides `BUILD_FROM`. No Alpine branches are mixed. The default Alpine Edge base is a rolling development branch; actual installed versions are reported by the build checks.
 
 There are no reliable public Home Assistant installation counts for this app. Local builds also do not produce measurable GitHub release downloads; project activity is shown instead of invented installation statistics.
 

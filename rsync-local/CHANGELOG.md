@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.74.1
+
+- Fix local Docker builds failing on unavailable rsync/coreutils package revisions.
+- Resolve both packages from the selected Alpine base instead of pinning missing revisions.
+- Keep package repositories aligned with the base, including Supervisor BUILD_FROM overrides.
+- Verify package availability and report the actual installed versions in build checks.
+- Restore the main catalog to root project submodules without a `.sources` directory.
+
 ## 1.74
 
 ### Added
