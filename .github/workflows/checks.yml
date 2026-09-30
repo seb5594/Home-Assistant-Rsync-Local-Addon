@@ -33,7 +33,7 @@ jobs:
       - name: Check shell script
         run: |
           bash -n rsync-local/root/run.sh .github/tests/runtime.sh
-          shellcheck --shell=bash rsync-local/root/run.sh .github/tests/runtime.sh
+          shellcheck --external-sources --shell=bash rsync-local/root/run.sh .github/tests/runtime.sh
       - name: Check version and local build configuration
         run: |
           python3 - <<'PY'
