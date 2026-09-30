@@ -1,8 +1,6 @@
 # Rsync Local
 
-**Version 1.74**
-
-![Version](https://img.shields.io/badge/version-1.74-167D8D?style=for-the-badge)
+![Version](https://img.shields.io/badge/version-1.74.1-167D8D?style=for-the-badge)
 
 Keep an extra copy of **`/config`**, your Home Assistant configuration and secrets, plus important files from `/share`, `/media`, and other apps' exposed configuration folders.
 
@@ -14,6 +12,6 @@ Each start runs one sync and exits. Default options mirror deletions; there is n
 
 **[Configuration and scheduling](DOCS.md)** · **[Changelog](CHANGELOG.md)**
 
-AMD64, AArch64, ARMv7, ARMhf, and i386 builds are included. A Supervisor with `all_addon_configs` mapping support is required; Core has no artificial version floor. The pinned packages come from Alpine Edge.
+AMD64, AArch64, ARMv7, ARMhf, and i386 builds are included. A Supervisor with `all_addon_configs` mapping support is required; Core has no artificial version floor. Rsync and coreutils are resolved from the selected base's configured repositories; the default base uses Alpine Edge.
 
 Based on [Poeschl's original add-on](https://github.com/Poeschl-HomeAssistant-Addons/rsync-local). Maintained by [seb5594](https://github.com/seb5594). Apache License 2.0.
