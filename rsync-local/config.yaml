@@ -1,6 +1,5 @@
 name: Rsync Local
-# Replaced: version: "1.74"
-version: "1.74.1"
+version: 1.74.2
 slug: rsync-local
 description: Keep an extra local copy of your Home Assistant files on an attached USB drive.
 url: https://github.com/seb5594/Home-Assistant-Rsync-Local-Addon

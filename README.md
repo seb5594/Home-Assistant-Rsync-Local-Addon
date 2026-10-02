@@ -1,6 +1,6 @@
 # Rsync Local
 
-![Version](https://img.shields.io/badge/version-1.74.1-167D8D?style=for-the-badge)
+![Version](https://img.shields.io/badge/version-1.74.2-167D8D?style=for-the-badge)
 ![Rsync](https://img.shields.io/badge/rsync-base%20repository-167D8D?style=for-the-badge)
 ![Coreutils](https://img.shields.io/badge/coreutils-base%20repository-167D8D?style=for-the-badge)
 
