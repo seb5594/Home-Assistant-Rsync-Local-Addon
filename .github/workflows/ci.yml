@@ -6,6 +6,11 @@ on:
     tags: ['v*']
   pull_request:
   workflow_dispatch:
+    inputs:
+      draft:
+        description: Create the release as a draft for review
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -24,11 +29,12 @@ jobs:
       - uses: actions/checkout@v7
         with:
           repository: seb5594/hass-workflows
-          ref: d32aaee8f6feb7c349df98802067f9f4660f3023
+          ref: 12d59fc08431dfb8a4c5a82b7083859d51662cf2
           token: ${{ secrets.ORCHESTRATION_PAT }}
           path: .engine
           persist-credentials: false
       - uses: ./.engine/.actions/project
         with:
           token: ${{ github.token }}
+          draft: ${{ inputs.draft }}
           catalog-token: ${{ secrets.ORCHESTRATION_PAT }}
