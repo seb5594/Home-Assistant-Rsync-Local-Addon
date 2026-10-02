@@ -1,11 +1,19 @@
 ARG BUILD_FROM=ghcr.io/home-assistant/base:3.24-2026.08.0
+
+# renovate: datasource=repology depName=alpine_3_24/rsync
+ARG RSYNC_VERSION=3.5.0-r0
+# renovate: datasource=repology depName=alpine_3_22/rsync
+ARG RSYNC_VERSION_LEGACY=3.5.0-r0
+# renovate: datasource=repology depName=alpine_3_24/coreutils
+ARG COREUTILS_VERSION=9.11-r0
+# renovate: datasource=repology depName=alpine_3_22/coreutils
+ARG COREUTILS_VERSION_LEGACY=9.7-r1
+
 FROM ${BUILD_FROM}
 
-RUN apk add --no-cache \
-    # renovate: datasource=repology depName=alpine_3_24/rsync
-    rsync=3.5.0-r0 \
-    # renovate: datasource=repology depName=alpine_3_24/coreutils
-    coreutils=9.11-r0 \
+ARG RSYNC_VERSION
+ARG COREUTILS_VERSION
+RUN apk add --no-cache rsync=${RSYNC_VERSION} coreutils=${COREUTILS_VERSION} \
     && ln -s /addon_configs /app_configs \
     && ln -s /addons /local_apps \
     && ln -s /addons /local_addons

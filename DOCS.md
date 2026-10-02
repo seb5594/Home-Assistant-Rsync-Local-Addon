@@ -180,6 +180,6 @@ Mounting requires `SYS_ADMIN`, and AppArmor is disabled. Source volumes are read
 
 ## Runtime and Statistics
 
-The app builds on the official Home Assistant base image and runs as one s6-overlay service: it performs a single copy, then stops the app and passes rsync's exit code to the Supervisor. rsync and coreutils are installed with exact versions. Images exist for `amd64` and `aarch64`, the architectures of the official base image. rsync runs at a lower CPU scheduling priority; there is no web server and no resident scheduler.
+The app builds on the official Home Assistant base image and runs as one s6-overlay service: it performs a single copy, then stops the app and passes rsync's exit code to the Supervisor. rsync and coreutils are installed with exact versions. Images exist for `amd64` and `aarch64` on the current base image and for `armv7`, `armhf` and `i386` on the previous generation of base images, which carries older package versions. rsync runs at a lower CPU scheduling priority; there is no web server and no resident scheduler.
 
 GitHub badges show project/build activity, not Home Assistant installation counts. The app sends no telemetry. GitHub release-download totals would count attached release assets, not installations; this repository currently distributes local builds instead.
