@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.74.4
+
+- Pin `bash` and `jq` to exact versions; every installed package now has a static version.
+- Name release images `ARCH-hass-rsync-local-vVERSION`.
+
 ## 1.74.3
 
 - Consolidate CI, five-architecture builds, documentation checks, and GHCR publication in the shared engine.
