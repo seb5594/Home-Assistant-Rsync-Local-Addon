@@ -6,6 +6,9 @@ url: https://github.com/seb5594/Home-Assistant-Rsync-Local-Addon
 arch:
   - aarch64
   - amd64
+  - armv7
+  - armhf
+  - i386
 startup: application
 boot: manual
 init: false
