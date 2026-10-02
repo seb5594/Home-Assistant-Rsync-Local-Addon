@@ -1,6 +1,8 @@
 # Previous base was fixed to amd64 and lacked a published tag.
 # ARG BUILD_FROM=ghcr.io/home-assistant/amd64-base:3.24
 ARG BUILD_FROM=alpine:3.24.2
+# BUILD_FROM is versioned here or supplied by Supervisor.
+# hadolint ignore=DL3006
 FROM ${BUILD_FROM}
 
 
