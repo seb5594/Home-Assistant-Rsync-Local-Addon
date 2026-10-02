@@ -1,4 +1,4 @@
-name: App CI Pipeline
+name: CI Pipeline
 
 on:
   push:
@@ -6,16 +6,7 @@ on:
   pull_request:
 
 jobs:
-  run-ci:
+  run-app-ci:
     uses: seb5594/hass-workflows/.github/workflows/engine-app-ci.yml@main
     with:
       app_name: rsync-local
-
-  dispatch-update:
-    needs: run-ci
-    if: github.ref == 'refs/heads/main'
-    uses: seb5594/hass-workflows/.github/workflows/engine-dispatch-update.yml@main
-    with:
-      target_repo: seb5594/Home-Assistant-Apps
-    secrets:
-      PAT_TOKEN: ${{ secrets.ORCHESTRATION_PAT }}
