@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.74.2
+- Added prebuilded docker image using homeassistants latest alpine linux base
+
 ## 1.74.1
 
 - Fix local Docker builds failing on unavailable rsync/coreutils package revisions.
