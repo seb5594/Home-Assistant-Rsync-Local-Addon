@@ -1,7 +1,0 @@
-# Older Supervisors override BUILD_FROM; newer ones use the Dockerfile default.
-build_from:
-  armhf: alpine:20260805
-  armv7: alpine:20260805
-  aarch64: alpine:20260805
-  amd64: alpine:20260805
-  i386: alpine:20260805
