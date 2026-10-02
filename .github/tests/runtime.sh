@@ -8,7 +8,7 @@ passed=0
 
 setup() {
   local scenario=$1
-  # shellcheck source=rsync-local/root/run.sh
+  # shellcheck source=rsync-local/run.sh
   source "${RUN_SCRIPT:-/run.sh}"
   CASE_ROOT="$fixture/$scenario"
   mkdir -p "$CASE_ROOT"/{config,share,addons,addon_configs,usb,outside}
