@@ -1,9 +1,10 @@
+# GitHub requires this file in each repository; keep it identical to this template.
 version: 2
 updates:
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: github-actions
+    directory: /
     schedule:
-      interval: "monthly"
+      interval: monthly
     groups:
-      GH actions:
+      github-actions:
         dependency-type: production
