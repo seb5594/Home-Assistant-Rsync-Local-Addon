@@ -1,12 +1,77 @@
-name: CI Pipeline
+name: App CI and release
 
 on:
   push:
-    branches: [ main, dev ]
+    branches: [main, dev]
+    tags: ['v*']
   pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
 
 jobs:
-  run-app-ci:
-    uses: seb5594/hass-workflows/.github/workflows/engine-app-ci.yml@main
-    with:
-      app_name: rsync-local
+  validate-and-build:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {arch: amd64, platform: linux/amd64}
+          - {arch: aarch64, platform: linux/arm64}
+          - {arch: armv7, platform: linux/arm/v7}
+          - {arch: armhf, platform: linux/arm/v6}
+          - {arch: i386, platform: linux/386}
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Check out private workflow engine
+        uses: actions/checkout@v4
+        with:
+          repository: seb5594/hass-workflows
+          ref: 42e7e31954076a2cdf7a4af39fe20c5fbc460c70
+          token: ${{ secrets.ORCHESTRATION_PAT }}
+          path: .engine
+          persist-credentials: false
+      - uses: ./.engine/.actions/app-ci
+        with:
+          app: rsync-local
+          arch: ${{ matrix.arch }}
+          platform: ${{ matrix.platform }}
+  release:
+    needs: validate-and-build
+    if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Check out private workflow engine
+        uses: actions/checkout@v4
+        with:
+          repository: seb5594/hass-workflows
+          ref: 42e7e31954076a2cdf7a4af39fe20c5fbc460c70
+          token: ${{ secrets.ORCHESTRATION_PAT }}
+          path: .engine
+          persist-credentials: false
+      - uses: ./.engine/.actions/app-release
+        with:
+          app: rsync-local
+          token: ${{ github.token }}
+          orchestration-token: ${{ secrets.ORCHESTRATION_PAT }}
