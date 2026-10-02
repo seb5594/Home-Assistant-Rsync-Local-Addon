@@ -1,4 +1,6 @@
-ARG BUILD_FROM=ghcr.io/home-assistant/amd64-base:3.24
+# Previous base was fixed to amd64 and lacked a published tag.
+# ARG BUILD_FROM=ghcr.io/home-assistant/amd64-base:3.24
+ARG BUILD_FROM=alpine:3.24.2
 FROM ${BUILD_FROM}
 
 
@@ -19,8 +21,9 @@ LABEL io.hass.version="${BUILD_VERSION}" \
     io.hass.arch="${BUILD_ARCH}" \
     org.opencontainers.image.source="https://github.com/seb5594/Home-Assistant-Rsync-Local-Addon"
 
-COPY run.sh /
-RUN chmod +x /run.sh
+COPY run.sh entrypoint.sh /
+RUN chmod +x /run.sh /entrypoint.sh
 
 #ENTRYPOINT [ "/bin/bash", "/run.sh" ]
+ENTRYPOINT [ "/bin/bash", "/entrypoint.sh" ]
 CMD [ "/run.sh" ]

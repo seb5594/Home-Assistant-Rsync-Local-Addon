@@ -2,6 +2,9 @@
 
 ## 1.74.2
 - Added prebuilded docker image using homeassistants latest alpine linux base
+- Fix the private workflow engine connection and validate all five architectures.
+- Use Alpine 3.24.2 with the shared startup helper for lean, local builds.
+- Publish architecture-specific GHCR images and send the catalog's `update-addons` event.
 
 ## 1.74.1
 
