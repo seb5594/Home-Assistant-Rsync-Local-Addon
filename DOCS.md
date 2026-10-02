@@ -180,8 +180,6 @@ Mounting requires `SYS_ADMIN`, and AppArmor is disabled. Source volumes are read
 
 ## Runtime and Statistics
 
-Version 1.74.1 installs rsync and coreutils from the selected Alpine base's configured repositories, without unavailable exact revision pins. There is no S6, Bashio, web server, or resident scheduler. The process exits after copying and uses a lower CPU scheduling priority while rsync runs.
-
-The default base uses Alpine Edge, a rolling development branch. Package versions follow the repositories configured by the selected base, including Supervisor `BUILD_FROM` overrides. No Alpine branches are mixed. All five architectures are checked with actual image builds and folder-copy tests; build summaries record installed package versions.
+The app builds on the official Home Assistant base image and runs as one s6-overlay service: it performs a single copy, then stops the app and passes rsync's exit code to the Supervisor. rsync and coreutils are installed with exact versions. Images exist for `amd64` and `aarch64`, the architectures of the official base image. rsync runs at a lower CPU scheduling priority; there is no web server and no resident scheduler.
 
 GitHub badges show project/build activity, not Home Assistant installation counts. The app sends no telemetry. GitHub release-download totals would count attached release assets, not installations; this repository currently distributes local builds instead.

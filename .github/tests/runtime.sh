@@ -8,8 +8,8 @@ passed=0
 
 setup() {
   local scenario=$1
-  # shellcheck source=rsync-local/run.sh
-  source "${RUN_SCRIPT:-/run.sh}"
+  # shellcheck source=rsync-local/rootfs/usr/local/bin/rsync-local
+  source "${RUN_SCRIPT:-/usr/local/bin/rsync-local}"
   CASE_ROOT="$fixture/$scenario"
   mkdir -p "$CASE_ROOT"/{config,share,addons,addon_configs,usb,outside}
   printf 'secret\n' > "$CASE_ROOT/config/secrets.yaml"
