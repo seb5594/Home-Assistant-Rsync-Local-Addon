@@ -16,7 +16,8 @@ RUN apk add --no-cache \
     && ln -s /addons /local_addons
 
 
-ARG BUILD_VERSION=1.74.2
+# Previous release: ARG BUILD_VERSION=1.74.2
+ARG BUILD_VERSION=1.74.3
 ARG BUILD_ARCH
 LABEL io.hass.version="${BUILD_VERSION}" \
     io.hass.type="addon" \
