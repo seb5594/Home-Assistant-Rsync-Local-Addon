@@ -1,23 +1,23 @@
-# Previous base was fixed to amd64 and lacked a published tag.
-# ARG BUILD_FROM=ghcr.io/home-assistant/amd64-base:3.24
 ARG BUILD_FROM=alpine:3.24.2
-# BUILD_FROM is versioned here or supplied by Supervisor.
 # hadolint ignore=DL3006
 FROM ${BUILD_FROM}
 
 
 RUN apk add --no-cache \
-    bash \
-    jq \
+    # renovate: datasource=repology depName=alpine_3_24/bash
+    bash=5.3.9-r1 \
+    # renovate: datasource=repology depName=alpine_3_24/jq
+    jq=1.8.2-r0 \
+    # renovate: datasource=repology depName=alpine_3_24/rsync
     rsync=3.5.0-r0 \
+    # renovate: datasource=repology depName=alpine_3_24/coreutils
     coreutils=9.11-r0 \
     && ln -s /addon_configs /app_configs \
     && ln -s /addons /local_apps \
     && ln -s /addons /local_addons
 
 
-# Previous release: ARG BUILD_VERSION=1.74.2
-ARG BUILD_VERSION=1.74.3
+ARG BUILD_VERSION=1.74.4
 ARG BUILD_ARCH
 LABEL io.hass.version="${BUILD_VERSION}" \
     io.hass.type="addon" \
