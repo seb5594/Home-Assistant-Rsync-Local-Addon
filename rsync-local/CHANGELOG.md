@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.74.3
+
+- Consolidate CI, five-architecture builds, documentation checks, and GHCR publication in the shared engine.
+- Publish versioned architecture tags and a multi-platform image manifest.
+- Add metadata-driven version, mount, build, and support badges.
+
 ## 1.74.2
 - Added prebuilded docker image using homeassistants latest alpine linux base
 - Fix the private workflow engine connection and validate all five architectures.
