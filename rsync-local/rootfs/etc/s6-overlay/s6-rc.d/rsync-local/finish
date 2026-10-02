@@ -1,0 +1,5 @@
+#!/command/with-contenv bash
+# shellcheck shell=bash
+# The copy is done (or failed): stop the app and hand rsync's exit code to the Supervisor.
+echo "$1" > /run/s6-linux-init-container-results/exitcode
+exec /run/s6/basedir/bin/halt
