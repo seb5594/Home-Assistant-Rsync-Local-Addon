@@ -7,4 +7,4 @@ jobs:
   probe:
     runs-on: ubuntu-latest
     steps:
-      - run: docker run --rm alpine:3.24.2 sh -c 'apk add --simulate bash jq rsync coreutils | grep -E "Installing (bash|jq|rsync|coreutils) "'
+      - run: docker run --rm alpine:3.24.2 sh -c 'apk update >/dev/null; apk add --simulate bash jq rsync coreutils | grep -E "Installing (bash|jq|rsync|coreutils) "'
