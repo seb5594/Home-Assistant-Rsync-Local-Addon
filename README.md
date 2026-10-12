@@ -2,11 +2,10 @@
 
 <!-- badges:begin (generated from project metadata) -->
 [![version](https://img.shields.io/static/v1?label=version&message=1.75.0&color=1877A5&style=flat)](https://github.com/seb5594/Home-Assistant-Rsync-Local-Addon/releases) [![released](https://img.shields.io/github/release-date-pre/seb5594/Home-Assistant-Rsync-Local-Addon?label=released&style=flat)](https://github.com/seb5594/Home-Assistant-Rsync-Local-Addon/releases) [![build](https://img.shields.io/github/actions/workflow/status/seb5594/Home-Assistant-Rsync-Local-Addon/ci.yml?branch=main&label=build&style=flat)](https://github.com/seb5594/Home-Assistant-Rsync-Local-Addon/actions/workflows/ci.yml)<br>
-[![stars](https://img.shields.io/github/stars/seb5594/Home-Assistant-Rsync-Local-Addon?label=stars&style=flat)](https://github.com/seb5594/Home-Assistant-Rsync-Local-Addon/stargazers) [![issues](https://img.shields.io/github/issues/seb5594/Home-Assistant-Rsync-Local-Addon?label=issues&style=flat)](https://github.com/seb5594/Home-Assistant-Rsync-Local-Addon/issues) [![updated](https://img.shields.io/github/last-commit/seb5594/Home-Assistant-Rsync-Local-Addon?label=updated&style=flat)](https://github.com/seb5594/Home-Assistant-Rsync-Local-Addon/commits/main) ![image pulls](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fseb5594%2FHome-Assistant-Rsync-Local-Addon%2Fbadges%2Fimage-pulls.json&style=flat)<br>
+[![stars](https://img.shields.io/github/stars/seb5594/Home-Assistant-Rsync-Local-Addon?label=stars&style=flat)](https://github.com/seb5594/Home-Assistant-Rsync-Local-Addon/stargazers) [![updated](https://img.shields.io/github/last-commit/seb5594/Home-Assistant-Rsync-Local-Addon?label=updated&style=flat)](https://github.com/seb5594/Home-Assistant-Rsync-Local-Addon/commits/main)<br>
 ![arch](https://img.shields.io/static/v1?label=arch&message=amd64%20%C2%B7%20aarch64%20%C2%B7%20armv7%20%C2%B7%20armhf%20%C2%B7%20i386&color=157F71&style=flat)<br>
 ![mounts (read-only)](https://img.shields.io/static/v1?label=mounts%20%28read-only%29&message=app%20configs%20%C2%B7%20backup%20%C2%B7%20config%20%C2%B7%20local%20apps%20%C2%B7%20media%20%C2%B7%20share%20%C2%B7%20ssl&color=157F71&style=flat) ![local disks](https://img.shields.io/static/v1?label=local%20disks&message=attached&color=1877A5&style=flat)<br>
 ![stage](https://img.shields.io/static/v1?label=stage&message=stable&color=2F855A&style=flat) ![privileged](https://img.shields.io/static/v1?label=privileged&message=SYS_ADMIN&color=B45309&style=flat) ![apparmor](https://img.shields.io/static/v1?label=apparmor&message=disabled&color=B45309&style=flat) ![options](https://img.shields.io/static/v1?label=options&message=3&color=1877A5&style=flat)<br>
-![image size](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fseb5594%2FHome-Assistant-Rsync-Local-Addon%2Fbadges%2Fimage-size.json&style=flat) ![runtime tests](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fseb5594%2FHome-Assistant-Rsync-Local-Addon%2Fbadges%2Fruntime-tests.json&style=flat) ![last build](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fseb5594%2FHome-Assistant-Rsync-Local-Addon%2Fbadges%2Flast-build.json&style=flat)<br>
 [![Home Assistant](https://img.shields.io/static/v1?label=Home%20Assistant&message=Add%20app%20repository&color=18BCF2&style=flat&logo=homeassistant&logoColor=white)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fseb5594%2FHome-Assistant-Apps)
 <!-- badges:end -->
 
@@ -38,13 +37,13 @@ Each start syncs files once and exits. Subsequent runs copy changes. There is no
 
 Architecture, mount, and capability badges come from `rsync-local/config.yaml`. Folders are mounted read-only; the app only reads them and writes to the attached drive. It has no ingress interface. Images are built for `amd64` and `aarch64` on the current Home Assistant base image and for `armv7`, `armhf` and `i386` on its previous generation.
 
-Image size, runtime test count, and the last build date are published by the CI pipeline after each release. The pull counter reads the public GHCR package page. None of these can count local builds, USB backups, or Home Assistant installations, and GitHub does not report download countries.
+Image size and runtime test count come from the CI build and are updated with every release run. The pull counter reads the public GHCR package page. None of these can count local builds, USB backups, or Home Assistant installations, and GitHub does not report download countries.
 
 ## Before you rely on a copy
 
 Deleted source files are removed from their corresponding USB destination by the default mirror option. This is a file sync, with no built-in version history or encryption. Keep Home Assistant's own backups for full restores and consistent application/database data; copying a live database is not a safe database backup. Protect the USB drive when it contains secrets.
 
-Based on [Poeschl's original Rsync Local add-on](https://github.com/Poeschl-HomeAssistant-Addons/rsync-local). Maintained by [seb5594](https://github.com/seb5594). [Apache License 2.0](LICENSE).
+Based on [Poeschl's original Rsync Local add-on](https://github.com/Poeschl-HomeAssistant-Addons/rsync-local). Maintained by [seb5594](https://github.com/seb5594).
 
 <!-- support:begin (generated, shared text) -->
 ## Say thanks
@@ -55,3 +54,11 @@ If my work helped you or turned out to be useful, show your appreciation with a 
 
 [![Buy Me a Coffee](https://img.shields.io/static/v1?label=Support&message=Buy%20Me%20a%20Coffee&color=FFDD00&logo=buy-me-a-coffee&logoColor=black&style=for-the-badge)](https://buymeacoffee.com/seb5594) [![PayPal](https://img.shields.io/static/v1?label=Support&message=PayPal&color=0070BA&logo=paypal&logoColor=white&style=for-the-badge)](https://www.paypal.com/donate/?hosted_button_id=QMQPNRENXDN26)
 <!-- support:end -->
+
+<!-- license:begin (generated from the license file) -->
+## License
+
+[![license](https://img.shields.io/static/v1?label=license&message=Apache-2.0&color=5B6770&style=flat)](LICENSE)
+
+Published under the [Apache License 2.0](LICENSE).
+<!-- license:end -->
