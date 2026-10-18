@@ -1,0 +1,11 @@
+{
+  "image_pulls": 20,
+  "image_size": {
+    "aarch64": 59548438,
+    "amd64": 49863232,
+    "armhf": 44524373,
+    "armv7": 38861516,
+    "i386": 45766016
+  },
+  "runtime_tests": 12
+}
