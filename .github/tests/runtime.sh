@@ -22,7 +22,7 @@ setup() {
   SOURCE_ROOTS=("$CASE_ROOT/config" "$CASE_ROOT/share" "$CASE_ROOT/addons" "$CASE_ROOT/addon_configs")
   mount() { printf 'mount\n' >> "$CASE_ROOT/events"; }
   # Called indirectly by the runtime's exit trap.
-  # shellcheck disable=SC2317
+  # shellcheck disable=SC2317,SC2329
   umount() { printf 'umount\n' >> "$CASE_ROOT/events"; }
   validate_device() { [[ $1 == /dev/sdb1 ]]; }
   jq -n --arg source "$CASE_ROOT/config" \
@@ -61,7 +61,7 @@ scenario() {
       change_options '.folders[0].options = "--this-option-does-not-exist"'
       ;;
     unmount_failure)
-      # shellcheck disable=SC2317
+      # shellcheck disable=SC2317,SC2329
       umount() { printf 'umount\n' >> "$CASE_ROOT/events"; return 1; }
       ;;
   esac
