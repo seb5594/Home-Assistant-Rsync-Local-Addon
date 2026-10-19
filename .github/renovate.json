@@ -11,6 +11,9 @@
     "dependencies"
   ],
   "branchPrefix": "feature-",
+  "baseBranchPatterns": [
+    "$default"
+  ],
   "commitMessagePrefix": "chore(deps):",
   "dependencyDashboard": true,
   "packageRules": [
@@ -28,6 +31,23 @@
       ],
       "matchDepNames": [
         "python"
+      ],
+      "enabled": false
+    },
+    {
+      "description": "Runner images are chosen on purpose (a new Ubuntu changes Python and tool versions); raise them by hand",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchDepNames": [
+        "ubuntu"
+      ],
+      "enabled": false
+    },
+    {
+      "description": "requirements in manifest.json are what users install: changing one is a release decision, not a dependency bump",
+      "matchManagers": [
+        "homeassistant-manifest"
       ],
       "enabled": false
     },
