@@ -1,4 +1,73 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>seb5594/hass-workflows"]
+  "extends": [
+    "config:recommended"
+  ],
+  "timezone": "Europe/Berlin",
+  "schedule": [
+    "before 6am on monday"
+  ],
+  "labels": [
+    "dependencies"
+  ],
+  "branchPrefix": "feature-",
+  "commitMessagePrefix": "chore(deps):",
+  "dependencyDashboard": true,
+  "packageRules": [
+    {
+      "description": "Update workflow actions together",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "groupName": "github actions"
+    },
+    {
+      "description": "The engine scripts run on one tested Python; raise it deliberately, not by pull request",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchDepNames": [
+        "python"
+      ],
+      "enabled": false
+    },
+    {
+      "description": "Base image tags look like 3.24-2026.08.0: the Alpine release stays, only the date part moves; floating tags such as 3.24 are ignored",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "ghcr.io/home-assistant/base"
+      ],
+      "versioning": "regex:^(?<compatibility>\\d+\\.\\d+)-(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$"
+    },
+    {
+      "description": "Base image and the Alpine packages built for it must move together",
+      "matchPackageNames": [
+        "ghcr.io/home-assistant/base",
+        "alpine",
+        "/^alpine_/"
+      ],
+      "groupName": "alpine base and packages"
+    },
+    {
+      "description": "Alpine package versions such as 2.54.0-r0 are not semver",
+      "matchDatasources": [
+        "repology"
+      ],
+      "versioning": "loose"
+    }
+  ],
+  "customManagers": [
+    {
+      "description": "Versions marked with '# renovate: datasource=... depName=...' in a Dockerfile",
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/(^|/)Dockerfile$/"
+      ],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\s+(?:ENV |ARG )?[A-Za-z0-9_-]+=(?<currentValue>[^\\s\\\\]+)"
+      ]
+    }
+  ]
 }
