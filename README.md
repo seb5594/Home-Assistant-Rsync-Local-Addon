@@ -10,7 +10,7 @@
 <p align="center">
   <a href="https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fseb5594%2FHome-Assistant-Apps"><img src="https://img.shields.io/static/v1?label=Home%20Assistant&amp;message=Add%20app%20repository&amp;color=18BCF2&amp;logo=homeassistant&amp;logoColor=white&amp;style=for-the-badge" alt="Home Assistant" height="28"></a>
   <a href="https://github.com/seb5594/Home-Assistant-Rsync-Local-Addon/releases/tag/v1.75.0"><img src="https://img.shields.io/static/v1?label=version&amp;message=1.75.0&amp;color=1877A5&amp;style=for-the-badge" alt="version" height="28"></a>
-  <img src="https://img.shields.io/static/v1?label=image%20pulls&amp;message=20&amp;color=1877A5&amp;style=for-the-badge" alt="image pulls" height="28"><br>
+  <img src="https://img.shields.io/static/v1?label=image%20pulls&amp;message=36&amp;color=1877A5&amp;style=for-the-badge" alt="image pulls" height="28"><br>
   <img src="https://img.shields.io/static/v1?label=arch&amp;message=amd64%20%C2%B7%20aarch64%20%C2%B7%20armv7%20%C2%B7%20armhf%20%C2%B7%20i386&amp;color=157F71&amp;style=flat" alt="arch" height="20">
   <img src="https://img.shields.io/static/v1?label=stage&amp;message=stable&amp;color=2F855A&amp;style=flat" alt="stage" height="20">
   <img src="https://img.shields.io/static/v1?label=mounts%20%28read-only%29&amp;message=app%20configs%20%C2%B7%20backup%20%C2%B7%20config%20%C2%B7%20local%20apps%20%C2%B7%20media%20%C2%B7%20share%20%C2%B7%20ssl&amp;color=157F71&amp;style=flat" alt="mounts (read-only)" height="20">
