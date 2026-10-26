@@ -32,7 +32,7 @@ jobs:
       - uses: actions/checkout@v7
         with:
           repository: seb5594/hass-workflows
-          ref: cd3daa0d8691133d6578be61523d9c8760aaa3f3
+          ref: 49dd6a6e6dfa7d14e3ce1c031b4df9a58c12a66c
           token: ${{ secrets.ORCHESTRATION_PAT }}
           path: .engine
           persist-credentials: false
