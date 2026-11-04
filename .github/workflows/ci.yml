@@ -1,4 +1,4 @@
-name: Validate and release app
+name: Home Assistant CI
 
 on:
   push:
@@ -32,7 +32,7 @@ jobs:
       - uses: actions/checkout@v7
         with:
           repository: seb5594/hass-workflows
-          ref: 5f0ed5e1febb320d113ddd98f7ce60047a2194be
+          ref: 9bec48ad8ba6900cb90f06ffd2710add157f5f5f
           token: ${{ secrets.ORCHESTRATION_PAT }}
           path: .engine
           persist-credentials: false
