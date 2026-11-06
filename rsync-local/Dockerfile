@@ -1,7 +1,7 @@
 ARG BUILD_FROM=ghcr.io/home-assistant/base:3.24-2026.08.0
 
 # renovate: datasource=repology depName=alpine_3_24/rsync
-ARG RSYNC_VERSION=3.5.0-r0
+ARG RSYNC_VERSION=3.5.2-r0
 # renovate: datasource=repology depName=alpine_3_22/rsync
 ARG RSYNC_VERSION_LEGACY=3.5.0-r0
 # renovate: datasource=repology depName=alpine_3_24/coreutils
