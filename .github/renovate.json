@@ -10,7 +10,7 @@
   "labels": [
     "dependencies"
   ],
-  "branchPrefix": "feature-",
+  "branchPrefix": "feat/",
   "baseBranchPatterns": [
     "$default"
   ],
