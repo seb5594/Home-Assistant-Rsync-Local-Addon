@@ -1,29 +1,27 @@
 <!-- header:begin (generated from project metadata) -->
-<h1 align="center">Rsync Local</h1>
-
-<p align="center">
+<h1 align="center">
+  Rsync Local
+  <br>
   <img src="https://raw.githubusercontent.com/seb5594/Home-Assistant-Rsync-Local-Addon/main/rsync-local/logo.png" alt="Rsync Local" width="360" height="144">
-</p>
-
----
+</h1>
 
 <p align="center">
-  <a href="https://paypal.me/seb5594"><img src="https://img.shields.io/static/v1?label=Support&amp;message=PayPal&amp;color=0070BA&amp;logo=paypal&amp;logoColor=white&amp;style=for-the-badge" alt="PayPal" height="40"></a>
-  <a href="https://buymeacoffee.com/seb5594"><img src="https://img.shields.io/static/v1?label=Support&amp;message=Buy%20Me%20a%20Coffee&amp;color=FFDD00&amp;logo=buy-me-a-coffee&amp;logoColor=black&amp;style=for-the-badge" alt="Buy Me a Coffee" height="40"></a><br>
-  <a href="https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fseb5594%2FHome-Assistant-Apps"><img src="https://img.shields.io/static/v1?label=Home%20Assistant&amp;message=Add%20app%20repository&amp;color=18BCF2&amp;logo=homeassistant&amp;logoColor=white&amp;style=for-the-badge" alt="Home Assistant" height="28"></a>
-  <a href="https://github.com/seb5594/Home-Assistant-Rsync-Local-Addon/releases/tag/v1.75.0"><img src="https://img.shields.io/static/v1?label=version&amp;message=1.75.0&amp;color=1877A5&amp;style=for-the-badge" alt="version" height="28"></a>
+  <a href="https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fseb5594%2FHome-Assistant-Apps"><img src="https://img.shields.io/static/v1?label=Home%20Assistant&amp;message=Add%20app%20repository&amp;color=18BCF2&amp;logo=homeassistant&amp;logoColor=white&amp;style=for-the-badge" alt="Home Assistant" height="28"></a><br>
+  <a href="https://github.com/seb5594/Home-Assistant-Rsync-Local-Addon/releases/tag/v1.75.0"><img src="https://img.shields.io/static/v1?label=app%20version&amp;message=1.75.0&amp;color=1877A5&amp;style=for-the-badge" alt="app version" height="28"></a>
   <img src="https://img.shields.io/static/v1?label=image%20pulls&amp;message=36&amp;color=1877A5&amp;style=for-the-badge" alt="image pulls" height="28"><br>
-  <img src="https://img.shields.io/static/v1?label=arch%20%26%20size&amp;message=amd64%2047.6%20%C2%B7%20aarch64%2056.8%20%C2%B7%20armv7%2037.1%20%C2%B7%20armhf%2042.5%20%C2%B7%20i386%2043.6%20MiB&amp;color=157F71&amp;style=flat" alt="arch &amp; size" height="20">
   <img src="https://img.shields.io/static/v1?label=stage&amp;message=stable&amp;color=2F855A&amp;style=flat" alt="stage" height="20">
+  <img src="https://img.shields.io/static/v1?label=arch%20%26%20size&amp;message=amd64%2047.6%20%C2%B7%20aarch64%2056.8%20%C2%B7%20armv7%2037.1%20%C2%B7%20armhf%2042.5%20%C2%B7%20i386%2043.7%20MiB&amp;color=157F71&amp;style=flat" alt="arch &amp; size" height="20">
   <img src="https://img.shields.io/static/v1?label=mounts%20%28read-only%29&amp;message=app%20configs%20%C2%B7%20backup%20%C2%B7%20config%20%C2%B7%20local%20apps%20%C2%B7%20media%20%C2%B7%20share%20%C2%B7%20ssl&amp;color=157F71&amp;style=flat" alt="mounts (read-only)" height="20">
   <img src="https://img.shields.io/static/v1?label=local%20disks&amp;message=attached&amp;color=1877A5&amp;style=flat" alt="local disks" height="20">
   <img src="https://img.shields.io/static/v1?label=privileged&amp;message=SYS_ADMIN&amp;color=B45309&amp;style=flat" alt="privileged" height="20">
   <img src="https://img.shields.io/static/v1?label=apparmor&amp;message=disabled&amp;color=B45309&amp;style=flat" alt="apparmor" height="20"><br>
   <a href="https://github.com/seb5594/Home-Assistant-Apps/stargazers"><img src="https://img.shields.io/github/stars/seb5594/Home-Assistant-Rsync-Local-Addon?label=stars&amp;style=flat" alt="stars" height="20"></a>
-  <a href="https://github.com/seb5594/Home-Assistant-Apps/issues"><img src="https://img.shields.io/github/issues/seb5594/Home-Assistant-Rsync-Local-Addon?label=issues&amp;style=flat" alt="issues" height="20"></a>
-  <img src="https://img.shields.io/static/v1?label=runtime%20tests&amp;message=12%20passed&amp;color=2F855A&amp;style=flat" alt="runtime tests" height="20">
   <a href="https://github.com/seb5594/Home-Assistant-Rsync-Local-Addon/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/seb5594/Home-Assistant-Rsync-Local-Addon/ci.yml?branch=main&amp;label=checks&amp;style=flat" alt="checks" height="20"></a>
-  <a href="https://github.com/seb5594/Home-Assistant-Apps#license"><img src="https://img.shields.io/github/license/seb5594/Home-Assistant-Rsync-Local-Addon?label=license&amp;style=flat" alt="license" height="20"></a>
+  <img src="https://img.shields.io/static/v1?label=runtime%20tests&amp;message=12%20passed&amp;color=2F855A&amp;style=flat" alt="runtime tests" height="20">
+  <a href="https://github.com/seb5594/Home-Assistant-Apps/issues"><img src="https://img.shields.io/github/issues/seb5594/Home-Assistant-Rsync-Local-Addon?label=issues&amp;style=flat" alt="issues" height="20"></a>
+  <a href="https://github.com/seb5594/Home-Assistant-Apps#license"><img src="https://img.shields.io/github/license/seb5594/Home-Assistant-Rsync-Local-Addon?label=license&amp;style=flat" alt="license" height="20"></a><br>
+  <a href="https://paypal.me/seb5594"><img src="https://img.shields.io/static/v1?label=Support&amp;message=PayPal&amp;color=0070BA&amp;logo=paypal&amp;logoColor=white&amp;style=for-the-badge" alt="PayPal" height="24"></a>
+  <a href="https://buymeacoffee.com/seb5594"><img src="https://img.shields.io/static/v1?label=Support%20%F0%9F%8D%BA&amp;message=Buy%20me%20a%20c%CC%B6o%CC%B6f%CC%B6f%CC%B6e%CC%B6e%CC%B6%20Beer&amp;color=FFDD00&amp;style=for-the-badge" alt="Buy me a beer" height="24"></a>
 </p>
 <!-- header:end -->
 
@@ -70,7 +68,7 @@ All my projects are built in my spare time, just for the fun of it. Still, they 
 
 If my work helped you or turned out to be useful, show your appreciation with a hot drink for my next sleepless night.
 
-[![PayPal](https://img.shields.io/static/v1?label=Support&message=PayPal&color=0070BA&logo=paypal&logoColor=white&style=for-the-badge)](https://paypal.me/seb5594) [![Buy Me a Coffee](https://img.shields.io/static/v1?label=Support&message=Buy%20Me%20a%20Coffee&color=FFDD00&logo=buy-me-a-coffee&logoColor=black&style=for-the-badge)](https://buymeacoffee.com/seb5594)
+[![PayPal](https://img.shields.io/static/v1?label=Support&message=PayPal&color=0070BA&logo=paypal&logoColor=white&style=for-the-badge)](https://paypal.me/seb5594) [![Buy me a beer](https://img.shields.io/static/v1?label=Support%20%F0%9F%8D%BA&message=Buy%20me%20a%20c%CC%B6o%CC%B6f%CC%B6f%CC%B6e%CC%B6e%CC%B6%20Beer&color=FFDD00&style=for-the-badge)](https://buymeacoffee.com/seb5594)
 <!-- support:end -->
 
 <!-- license:begin (generated from the license file) -->
