@@ -51,7 +51,7 @@ Each start syncs files once and exits. Subsequent runs copy changes. There is no
 
 ## What the badges mean
 
-Architecture, mount, and capability badges come from `rsync-local/config.yaml`. Folders are mounted read-only; the app only reads them and writes to the attached drive. It has no ingress interface. Images are built for `amd64` and `aarch64` on the current Home Assistant base image and for `armv7`, `armhf` and `i386` on its previous generation.
+Architecture, mount, and capability badges come from `rsync-local/config.yaml`. Folders are mounted read-only; the app only reads them and writes to the attached drive. It has no ingress interface. All five architectures use the personal Home Assistant multi-architecture base on Alpine 3.24 and share one image tag.
 
 Image size and runtime test count come from the CI build and are updated with every release run. The pull counter reads the public GHCR package page. None of these can count local builds, USB backups, or Home Assistant installations, and GitHub does not report download countries.
 
