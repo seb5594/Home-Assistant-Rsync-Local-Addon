@@ -15,7 +15,9 @@
     "$default"
   ],
   "commitMessagePrefix": "chore(deps):",
-  "dependencyDashboard": true,
+  "dependencyDashboard": {
+    "enabled": true
+  },
   "packageRules": [
     {
       "description": "Update workflow actions together",
