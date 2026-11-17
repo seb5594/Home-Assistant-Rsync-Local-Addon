@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.75.1
+
+- Use the personal Home Assistant base release 2026.11.0 on all supported architectures.
+- Publish one multi-architecture image per version for direct pulls and Supervisor installs.
+
 ## 1.75.0
 
 - Build on the official Home Assistant base image `3.24-2026.08.0` and run as an s6-overlay service
