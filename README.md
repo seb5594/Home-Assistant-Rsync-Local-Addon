@@ -10,7 +10,7 @@
   <a href="https://github.com/seb5594/Home-Assistant-Rsync-Local-Addon/releases/tag/v1.75.1"><img src="https://img.shields.io/static/v1?label=app%20version&amp;message=1.75.1&amp;color=1877A5&amp;style=for-the-badge" alt="app version" height="28"></a>
   <img src="https://img.shields.io/static/v1?label=image%20pulls&amp;message=17&amp;color=1877A5&amp;style=for-the-badge" alt="image pulls" height="28"><br>
   <img src="https://img.shields.io/static/v1?label=stage&amp;message=stable&amp;color=2F855A&amp;style=flat" alt="stage" height="20">
-  <img src="https://img.shields.io/static/v1?label=arch%20%26%20size&amp;message=amd64%2047.3%20%C2%B7%20aarch64%2056.7%20%C2%B7%20armv7%2039.4%20%C2%B7%20armhf%2045.0%20%C2%B7%20i386%2046.2%20MiB&amp;color=157F71&amp;style=flat" alt="arch &amp; size" height="20">
+  <img src="https://img.shields.io/static/v1?label=arch%20%26%20size&amp;message=amd64%2047.2%20%C2%B7%20aarch64%2056.7%20%C2%B7%20armv7%2039.4%20%C2%B7%20armhf%2045.0%20%C2%B7%20i386%2046.2%20MiB&amp;color=157F71&amp;style=flat" alt="arch &amp; size" height="20">
   <img src="https://img.shields.io/static/v1?label=mounts%20%28read-only%29&amp;message=app%20configs%20%C2%B7%20backup%20%C2%B7%20config%20%C2%B7%20local%20apps%20%C2%B7%20media%20%C2%B7%20share%20%C2%B7%20ssl&amp;color=157F71&amp;style=flat" alt="mounts (read-only)" height="20">
   <img src="https://img.shields.io/static/v1?label=local%20disks&amp;message=attached&amp;color=1877A5&amp;style=flat" alt="local disks" height="20">
   <img src="https://img.shields.io/static/v1?label=privileged&amp;message=SYS_ADMIN&amp;color=B45309&amp;style=flat" alt="privileged" height="20">
