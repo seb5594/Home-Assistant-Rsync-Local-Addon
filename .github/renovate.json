@@ -54,14 +54,15 @@
       "enabled": false
     },
     {
-      "description": "Base image tags look like 3.24-2026.08.0: the Alpine release stays, only the date part moves; floating tags such as 3.24 are ignored",
+      "description": "Follow stable Home Assistant base tags, including new Alpine versions",
       "matchDatasources": [
         "docker"
       ],
       "matchPackageNames": [
         "ghcr.io/seb5594/home-assistant-base"
       ],
-      "versioning": "regex:^(?<compatibility>\\d+\\.\\d+)-(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$"
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)-(?<patch>\\d{4})\\.(?<build>\\d{1,2})\\.(?<revision>\\d+)$",
+      "pinDigests": false
     },
     {
       "description": "Base image and the Alpine packages built for it must move together",
@@ -80,14 +81,26 @@
       "versioning": "loose"
     },
     {
-      "description": "Keep the Python and Alpine series while following base image releases",
+      "description": "Follow stable Home Assistant base tags, including new Alpine versions",
       "matchDatasources": [
         "docker"
       ],
       "matchPackageNames": [
         "ghcr.io/seb5594/home-assistant-base-python"
       ],
-      "versioning": "regex:^(?<compatibility>\\d+\\.\\d+-alpine\\d+\\.\\d+)-(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$"
+      "versioning": "regex:^(?<compatibility>\\d+\\.\\d+)-alpine(?<major>\\d+)\\.(?<minor>\\d+)-(?<patch>\\d{4})\\.(?<build>\\d{1,2})\\.(?<revision>\\d+)$",
+      "pinDigests": false
+    },
+    {
+      "description": "Update this base through the shared regex manager for Dockerfiles and project metadata",
+      "matchManagers": [
+        "dockerfile"
+      ],
+      "matchPackageNames": [
+        "ghcr.io/seb5594/home-assistant-base",
+        "ghcr.io/seb5594/home-assistant-base-python"
+      ],
+      "enabled": false
     }
   ],
   "customManagers": [
@@ -99,6 +112,18 @@
       ],
       "matchStrings": [
         "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\s+(?:ENV |ARG )?[A-Za-z0-9_-]+=(?<currentValue>[^\\s\\\\]+)"
+      ]
+    },
+    {
+      "description": "Track the same base tag in app Dockerfiles and generator metadata",
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/(^|/)Dockerfile$/",
+        "/(^|/)project\\.json$/"
+      ],
+      "datasourceTemplate": "docker",
+      "matchStrings": [
+        "(?:ARG BUILD_FROM=|FROM |\"base_image\"\\s*:\\s*\")(?<depName>ghcr\\.io/seb5594/home-assistant-base(?:-python)?):(?<currentValue>[0-9][0-9a-z.\\-]+)(?:[\"\\s]|$)"
       ]
     }
   ]
